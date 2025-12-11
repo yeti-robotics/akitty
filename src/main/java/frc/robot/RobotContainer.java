@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.arm.ArmIOTalonFX;
+import frc.robot.subsystems.arm.ArmPosition;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
@@ -169,9 +170,8 @@ public class RobotContainer {
                                         drive)
                                 .ignoringDisable(true));
 
-        //        controller.rightBumper().onTrue(arm.moveToPosition(ArmPosition.ArmDown));
-        //        controller.leftBumper().onTrue(arm.moveToPosition(ArmPosition.ArmStowed));
-
+        controller.rightBumper().onTrue(arm.moveToPosition(ArmPosition.ArmDown));
+        controller.leftBumper().onTrue(arm.moveToPosition(ArmPosition.ArmStowed));
     }
 
     /**
