@@ -137,6 +137,11 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
+
+        controller.a().onTrue(
+                Commands.runOnce(() -> System.out.println("A pressed"))
+        );
+
         // Default command, normal field-relative drive
         drive.setDefaultCommand(
                 DriveCommands.joystickDrive(
@@ -170,8 +175,8 @@ public class RobotContainer {
                                         drive)
                                 .ignoringDisable(true));
 
-        controller.rightBumper().onTrue(arm.moveToPosition(ArmPosition.ArmDown));
-        controller.leftBumper().onTrue(arm.moveToPosition(ArmPosition.ArmStowed));
+        controller.x().onTrue(arm.moveToPosition(ArmPosition.ArmDown));
+        controller.y().onTrue(arm.moveToPosition(ArmPosition.ArmStowed));
     }
 
     /**

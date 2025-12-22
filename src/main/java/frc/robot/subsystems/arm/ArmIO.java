@@ -9,7 +9,6 @@ public interface ArmIO {
         public double positionRotation = 0.0;
         public double velocityRPM = 0.0;
     }
-
     public default void updateInputs(ArmIOInputs inputs) {}
 
     public default void moveToPosition(Angle position) {}
