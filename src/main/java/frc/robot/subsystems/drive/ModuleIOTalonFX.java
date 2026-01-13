@@ -189,7 +189,7 @@ public class ModuleIOTalonFX implements ModuleIO {
     }
 
     @Override
-    public void updateInputs(ModuleIOInputs inputs) {
+    public void updateInputs(ModuleIOInputsAutoLogged inputs) {
         // Refresh all signals
         var driveStatus =
                 BaseStatusSignal.refreshAll(

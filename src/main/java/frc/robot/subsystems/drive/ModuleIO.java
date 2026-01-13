@@ -33,7 +33,7 @@ public interface ModuleIO {
     }
 
     /** Updates the set of loggable inputs. */
-    public default void updateInputs(ModuleIOInputs inputs) {}
+    public default void updateInputs(ModuleIOInputsAutoLogged inputs) {}
 
     /** Run the drive motor at the specified open loop value. */
     public default void setDriveOpenLoop(double output) {}
