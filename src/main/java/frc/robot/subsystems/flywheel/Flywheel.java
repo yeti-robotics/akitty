@@ -20,15 +20,12 @@ public class Flywheel extends SubsystemBase {
     }
 
     public Command setRoller(double power) {
-        return runOnce(() -> io.setRunning(true))
-                .andThen(
-                        runEnd(
-                                () -> {
-                                    io.setRollerDuty(power);
-                                },
-                                () -> {
-                                    io.setRollerDuty(0);
-                                }))
-                .andThen(() -> io.setRunning(false));
+        return runEnd(
+                () -> {
+                    io.setRoller(power);
+                },
+                () -> {
+                    io.setRoller(0);
+                });
     }
 }

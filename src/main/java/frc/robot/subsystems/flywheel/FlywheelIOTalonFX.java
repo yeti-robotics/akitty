@@ -1,34 +1,34 @@
 package frc.robot.subsystems.flywheel;
 
-import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.MotionMagicVelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 public class FlywheelIOTalonFX implements FlywheelIO {
-    private final TalonFX leftFX;
-    private final TalonFX rightFX;
+    private final TalonFX leftMotor;
+    private final TalonFX rightMotor;
 
     public FlywheelIOTalonFX() {
-        leftFX = new TalonFX(FlywheelConfigs.leftFXID);
-        rightFX = new TalonFX(FlywheelConfigs.rightFXID);
+        leftMotor = new TalonFX(FlywheelConfigs.leftMotorID);
+        rightMotor = new TalonFX(FlywheelConfigs.rightMotorID);
         // make left a follower of right
-        leftFX.setControl(new Follower(rightFX.getDeviceID(), false));
-        leftFX.getConfigurator().apply(FlywheelConfigs.rollerConfig);
-        rightFX.getConfigurator().apply(FlywheelConfigs.rollerConfig);
+        leftMotor.setControl(new Follower(rightMotor.getDeviceID(), false));
+        leftMotor.getConfigurator().apply(FlywheelConfigs.rollerConfig);
+        rightMotor.getConfigurator().apply(FlywheelConfigs.rollerConfig);
     }
 
     @Override
     public void updateInputs(FlywheelIO.FlywheelIOInputs inputs) {
-        inputs.leftFXVelocityRPM = leftFX.getVelocity().getValueAsDouble();
-        inputs.leftFXSpeed = leftFX.getDutyCycle().getValueAsDouble();
+        inputs.leftMotorVelocityRPM = leftMotor.getVelocity().getValueAsDouble();
+        inputs.leftMotorSpeed = leftMotor.getDutyCycle().getValueAsDouble();
 
-        inputs.rightFXVelocityRPM = rightFX.getVelocity().getValueAsDouble();
-        inputs.rightFXSpeed = rightFX.getDutyCycle().getValueAsDouble();
+        inputs.rightMotorVelocityRPM = rightMotor.getVelocity().getValueAsDouble();
+        inputs.rightMotorSpeed = rightMotor.getDutyCycle().getValueAsDouble();
     }
 
     @Override
-    public void setRollerDuty(double power) {
-        leftFX.setControl(new DutyCycleOut(power));
+    public void setRoller(double power) {
+        leftMotor.setControl(new MotionMagicVelocityTorqueCurrentFOC(power));
         // right is follower so left only
     }
 }
