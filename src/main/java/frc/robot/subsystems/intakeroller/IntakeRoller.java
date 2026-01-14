@@ -4,7 +4,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeRoller extends SubsystemBase {
-    public IntakerollerIO io;
+    private final IntakeRollerIO io;
+
+    public IntakeRoller(IntakeRollerIO io) {
+        this.io = io;
+    }
 
     public Command setRoller(double power) {
         return runEnd(
@@ -14,5 +18,5 @@ public class IntakeRoller extends SubsystemBase {
                 () -> {
                     io.setRollerDuty(0);
                 });
-
+    }
 }

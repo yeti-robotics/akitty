@@ -1,6 +1,5 @@
 package frc.robot.subsystems.intakeroller;
 
 public class IntakeRollerConfigTalonFXReal {
-    public class RampConfigTalonFXReal {
-        static final int rollerID = 0;
+    static final int rollerID = 0;
 }
