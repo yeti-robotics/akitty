@@ -24,6 +24,9 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.flywheel.FlywheelIO;
+import frc.robot.subsystems.flywheel.FlywheelIOSim;
+import frc.robot.subsystems.flywheel.FlywheelIOTalonFX;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -35,6 +38,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
     // Subsystems
     private final Drive drive;
+    private final FlywheelIO flywheel;
 
     // Controller
     private final CommandXboxController controller = new CommandXboxController(0);
@@ -71,6 +75,8 @@ public class RobotContainer {
                 //         new ModuleIOTalonFXS(TunerConstants.FrontRight),
                 //         new ModuleIOTalonFXS(TunerConstants.BackLeft),
                 //         new ModuleIOTalonFXS(TunerConstants.BackRight));
+
+                flywheel = new FlywheelIOTalonFX();
                 break;
 
             case SIM:
@@ -82,6 +88,8 @@ public class RobotContainer {
                                 new ModuleIOSim(TunerConstants.FrontRight),
                                 new ModuleIOSim(TunerConstants.BackLeft),
                                 new ModuleIOSim(TunerConstants.BackRight));
+
+                flywheel = new FlywheelIOSim();
                 break;
 
             default:
@@ -93,6 +101,8 @@ public class RobotContainer {
                                 new ModuleIO() {},
                                 new ModuleIO() {},
                                 new ModuleIO() {});
+
+                flywheel = new FlywheelIO() {};
                 break;
         }
 
