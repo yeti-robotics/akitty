@@ -2,14 +2,14 @@ package frc.robot.subsystems.intakeFeederwheel;
 
 import org.littletonrobotics.junction.AutoLog;
 
-public class intakeFeederwheelIO {
+public interface intakeFeederwheelIO {
     @AutoLog
     public static class intakeFeederwheelIOInputs {
         public double velocity = 0.0;
     }
 
-    public void updateInputs(intakeFeederwheelIOInputs inputs) {}
+    public default void updateInputs(intakeFeederwheelIOInputs inputs) {}
 
-    public void setPower(double power) {}
+    public default void setPower(double power) {}
 
 }
