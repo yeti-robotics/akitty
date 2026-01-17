@@ -12,9 +12,9 @@ public class PivotTalonFX implements PivotIO {
     private final TalonFX pivotMotor;
     private final CANcoder pivotCan;
 
-    public PivotTalonFX(int motorID, int cancoderID) {
-        pivotMotor = new TalonFX(motorID);
-        pivotCan = new CANcoder(cancoderID);
+    public PivotTalonFX() {
+        pivotMotor = new TalonFX(PivotConfig.MOTOR_ID);
+        pivotCan = new CANcoder(PivotConfig.CANCODER_ID);
         pivotMotor.getConfigurator().apply(new MotorOutputConfigs());
         pivotMotor.getConfigurator().apply(motorConfig());
     }
