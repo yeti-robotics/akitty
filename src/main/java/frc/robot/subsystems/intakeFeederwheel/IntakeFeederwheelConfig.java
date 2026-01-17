@@ -1,5 +1,5 @@
 package frc.robot.subsystems.intakeFeederwheel;
 
-public class intakeFeederwheelConfig {
+public class IntakeFeederwheelConfig {
     static final int FeederwheelMotorID = 20;
 }

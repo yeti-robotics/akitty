@@ -11,10 +11,12 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
@@ -24,6 +26,10 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.intakeFeederwheel.IntakeFeederwheelIO;
+import frc.robot.subsystems.intakeFeederwheel.IntakeFeederwheelIOSim;
+import frc.robot.subsystems.intakeFeederwheel.IntakeFeederwheelTalonFX;
+import frc.robot.subsystems.intakeFeederwheel.IntakeFeederwheelSubsystem;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -35,7 +41,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
     // Subsystems
     private final Drive drive;
-
+    private IntakeFeederwheelSubsystem intakeFeederwheel;
 
     // Controller
     private final CommandXboxController controller = new CommandXboxController(0);
@@ -72,6 +78,9 @@ public class RobotContainer {
                 //         new ModuleIOTalonFXS(TunerConstants.FrontRight),
                 //         new ModuleIOTalonFXS(TunerConstants.BackLeft),
                 //         new ModuleIOTalonFXS(TunerConstants.BackRight));
+
+                intakeFeederwheel = new IntakeFeederwheelSubsystem(new IntakeFeederwheelTalonFX());
+
                 break;
 
             case SIM:
@@ -83,6 +92,9 @@ public class RobotContainer {
                                 new ModuleIOSim(TunerConstants.FrontRight),
                                 new ModuleIOSim(TunerConstants.BackLeft),
                                 new ModuleIOSim(TunerConstants.BackRight));
+
+                intakeFeederwheel = new IntakeFeederwheelSubsystem(new IntakeFeederwheelIOSim());
+
                 break;
 
             default:
@@ -95,6 +107,8 @@ public class RobotContainer {
                                 new ModuleIO() {},
                                 new ModuleIO() {});
                 break;
+
+                intakeFeederwheel = new IntakeFeederwheelSubsystem(new IntakeFeederwheelIO() {});
         }
 
         // Set up auto routines
@@ -127,8 +141,8 @@ public class RobotContainer {
     /**
      * Use this method to define your button->command mappings. Buttons can be created by
      * instantiating a {@link GenericHID} or one of its subclasses ({@link
-     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+     * Joystick} or {@link XboxController}), and then passing it to a {@link
+     * JoystickButton}.
      */
     private void configureButtonBindings() {
         // Default command, normal field-relative drive
