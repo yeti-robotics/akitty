@@ -27,6 +27,7 @@ public class ArmIOSim implements ArmIO {
         inputs.velocityRPM = armKraken.getVelocity().getValueAsDouble();
     }
 
+
     @Override
     public void moveToPosition(Angle position) {
         armKraken.setControl(new MotionMagicTorqueCurrentFOC(position));
