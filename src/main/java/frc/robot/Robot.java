@@ -137,4 +137,3 @@ public class Robot extends LoggedRobot {
     @Override
     public void simulationPeriodic() {}
 }
-
