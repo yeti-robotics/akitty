@@ -14,44 +14,34 @@ public class ArmConfig {
     public static final double gearRatio = 1;
     public static final double magnetOffset = 0.0;
 
-    private static final Slot0Configs SLOT_0_CONFIGS =
-            Robot.isReal()
-                    ? new Slot0Configs()
-                            .withKP(0)
-                            .withKI(0)
-                            .withKD(0)
-                            .withKG(0)
-                            .withKV(0)
-                            .withKA(0)
-                            .withKS(0)
-                            .withGravityType(GravityTypeValue.Arm_Cosine)
-                    : new Slot0Configs();
+    private static final Slot0Configs SLOT_0_CONFIGS = Robot.isReal()
+            ? new Slot0Configs()
+                    .withKP(0)
+                    .withKI(0)
+                    .withKD(0)
+                    .withKG(0)
+                    .withKV(0)
+                    .withKA(0)
+                    .withKS(0)
+                    .withGravityType(GravityTypeValue.Arm_Cosine)
+            : new Slot0Configs();
 
-    static final TalonFXConfiguration primaryTalonFXConfigs =
-            new TalonFXConfiguration()
-                    .withSlot0(SLOT_0_CONFIGS)
-                    .withMotionMagic(
-                            new MotionMagicConfigs()
-                                    .withMotionMagicAcceleration(0)
-                                    .withMotionMagicCruiseVelocity(0)
-                                    .withMotionMagicJerk(0))
-                    .withFeedback(
-                            new FeedbackConfigs()
-                                    .withRotorToSensorRatio(60)
-                                    .withSensorToMechanismRatio(gearRatio))
-                    .withMotorOutput(
-                            new MotorOutputConfigs()
-                                    .withInverted(InvertedValue.CounterClockwise_Positive)
-                                    .withNeutralMode(NeutralModeValue.Brake));
+    static final TalonFXConfiguration primaryTalonFXConfigs = new TalonFXConfiguration()
+            .withSlot0(SLOT_0_CONFIGS)
+            .withMotionMagic(new MotionMagicConfigs()
+                    .withMotionMagicAcceleration(0)
+                    .withMotionMagicCruiseVelocity(0)
+                    .withMotionMagicJerk(0))
+            .withFeedback(new FeedbackConfigs().withRotorToSensorRatio(60).withSensorToMechanismRatio(gearRatio))
+            .withMotorOutput(new MotorOutputConfigs()
+                    .withInverted(InvertedValue.CounterClockwise_Positive)
+                    .withNeutralMode(NeutralModeValue.Brake));
 
-    static final CANcoderConfiguration cancoderConfiguration =
-            new CANcoderConfiguration()
-                    .withMagnetSensor(
-                            new MagnetSensorConfigs()
-                                    .withSensorDirection(
-                                            SensorDirectionValue.CounterClockwise_Positive)
-                                    .withMagnetOffset(magnetOffset)
-                                    .withAbsoluteSensorDiscontinuityPoint(0.625));
+    static final CANcoderConfiguration cancoderConfiguration = new CANcoderConfiguration()
+            .withMagnetSensor(new MagnetSensorConfigs()
+                    .withSensorDirection(SensorDirectionValue.CounterClockwise_Positive)
+                    .withMagnetOffset(magnetOffset)
+                    .withAbsoluteSensorDiscontinuityPoint(0.625));
 
     //    public static final int ARM_KRAKEN_ID = 21;
     //    public static final int ARM_CANCODER_ID = 5;

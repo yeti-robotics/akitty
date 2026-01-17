@@ -1,7 +1,5 @@
 package frc.robot.subsystems.arm;
 
-import static edu.wpi.first.units.Units.Degrees;
-
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
 

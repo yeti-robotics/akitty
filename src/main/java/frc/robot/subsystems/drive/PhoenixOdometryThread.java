@@ -30,16 +30,14 @@ import java.util.function.DoubleSupplier;
  * time synchronization.
  */
 public class PhoenixOdometryThread extends Thread {
-    private final Lock signalsLock =
-            new ReentrantLock(); // Prevents conflicts when registering signals
+    private final Lock signalsLock = new ReentrantLock(); // Prevents conflicts when registering signals
     private BaseStatusSignal[] phoenixSignals = new BaseStatusSignal[0];
     private final List<DoubleSupplier> genericSignals = new ArrayList<>();
     private final List<Queue<Double>> phoenixQueues = new ArrayList<>();
     private final List<Queue<Double>> genericQueues = new ArrayList<>();
     private final List<Queue<Double>> timestampQueues = new ArrayList<>();
 
-    private static boolean isCANFD =
-            new CANBus(TunerConstants.DrivetrainConstants.CANBusName).isNetworkFD();
+    private static boolean isCANFD = new CANBus(TunerConstants.DrivetrainConstants.CANBusName).isNetworkFD();
     private static PhoenixOdometryThread instance = null;
 
     public static PhoenixOdometryThread getInstance() {

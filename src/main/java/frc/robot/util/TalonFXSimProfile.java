@@ -6,7 +6,6 @@ import com.ctre.phoenix6.sim.CANcoderSimState;
 import com.ctre.phoenix6.sim.TalonFXSimState;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 
 /** Holds information about a simulated TalonFX. */
@@ -48,17 +47,17 @@ class TalonFXSimProfile extends PhysicsSim.SimProfile {
 
         motorSim.update(getPeriod());
 
-//        /// SET SIM PHYSICS INPUTS
-//        final double position_rot = motorSim.getAngularPosition();
-//        final double velocity_rps = Units.radiansToRotations(motorSim.getAngularVelocity());
-//
-//        if (cancoderSimState != null) {
-//            cancoderSimState.setRawPosition(position_rot);
-//            cancoderSimState.setVelocity(velocity_rps);
-//        }
-//        talonFXSim.setRawRotorPosition(position_rot);
-//        talonFXSim.setRotorVelocity(velocity_rps);
-//
-//        talonFXSim.setSupplyVoltage(12 - talonFXSim.getSupplyCurrent() * MOTOR_RESISTANCE);
+        //        /// SET SIM PHYSICS INPUTS
+        //        final double position_rot = motorSim.getAngularPosition();
+        //        final double velocity_rps = Units.radiansToRotations(motorSim.getAngularVelocity());
+        //
+        //        if (cancoderSimState != null) {
+        //            cancoderSimState.setRawPosition(position_rot);
+        //            cancoderSimState.setVelocity(velocity_rps);
+        //        }
+        //        talonFXSim.setRawRotorPosition(position_rot);
+        //        talonFXSim.setRotorVelocity(velocity_rps);
+        //
+        //        talonFXSim.setSupplyVoltage(12 - talonFXSim.getSupplyCurrent() * MOTOR_RESISTANCE);
     }
 }

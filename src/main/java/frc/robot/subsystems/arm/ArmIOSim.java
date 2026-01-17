@@ -1,16 +1,15 @@
 package frc.robot.subsystems.arm;
 
-import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
-import com.ctre.phoenix6.hardware.CANcoder;
-import com.ctre.phoenix6.hardware.TalonFX;
-
 import static frc.robot.constants.Constants.RIO_BUS;
 import static frc.robot.subsystems.arm.ArmConfig.primaryTalonFXConfigs;
 
+import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
+import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.units.measure.Angle;
 import frc.robot.util.PhysicsSim;
 
-public class ArmIOSim implements ArmIO{
+public class ArmIOSim implements ArmIO {
     private final TalonFX armKraken;
     private final CANcoder armCANCoder;
 
