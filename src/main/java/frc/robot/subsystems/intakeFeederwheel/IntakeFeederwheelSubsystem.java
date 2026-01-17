@@ -8,7 +8,9 @@ public class IntakeFeederwheelSubsystem extends SubsystemBase {
     private IntakeFeederwheelIO io;
     private IntakeFeederwheelIOInputsAutoLogged inputs = new IntakeFeederwheelIOInputsAutoLogged();
 
-    public IntakeFeederwheelSubsystem(IntakeFeederwheelIO io) {this.io = io;}
+    public IntakeFeederwheelSubsystem(IntakeFeederwheelIO io) {
+        this.io = io;
+    }
 
     @Override
     public void periodic() {
@@ -19,5 +21,4 @@ public class IntakeFeederwheelSubsystem extends SubsystemBase {
     public Command rollIn(double power) {
         return runEnd(() -> io.setPower(power), () -> io.setPower(0));
     }
-
 }

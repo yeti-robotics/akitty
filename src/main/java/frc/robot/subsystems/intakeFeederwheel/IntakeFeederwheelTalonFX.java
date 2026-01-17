@@ -14,7 +14,6 @@ public class IntakeFeederwheelTalonFX implements IntakeFeederwheelIO {
         }
     }
 
-
     @Override
     public void updateInputs(IntakeFeederwheelIOInputs inputs) {
         inputs.velocity = feederwheelMotor.getVelocity().getValueAsDouble();
