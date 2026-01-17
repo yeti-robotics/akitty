@@ -8,8 +8,8 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.*;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -24,7 +24,10 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.vision.*;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+
+import static frc.robot.subsystems.vision.VisionConstants.robotToCamera0;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -35,6 +38,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
     // Subsystems
     private final Drive drive;
+    private final Vision vision;
 
     // Controller
     private final CommandXboxController controller = new CommandXboxController(0);
@@ -71,18 +75,44 @@ public class RobotContainer {
                 //         new ModuleIOTalonFXS(TunerConstants.FrontRight),
                 //         new ModuleIOTalonFXS(TunerConstants.BackLeft),
                 //         new ModuleIOTalonFXS(TunerConstants.BackRight));
+                vision = new Vision(
+                        drive,
+                        new VisionIOLimelight("Front Camera", drive::getRotation),
+                        new VisionIOLimelight("Back Camera", drive::getRotation));
                 break;
 
             case SIM:
                 // Sim robot, instantiate physics sim IO implementations
-                drive =
-                        new Drive(
-                                new GyroIO() {},
-                                new ModuleIOSim(TunerConstants.FrontLeft),
-                                new ModuleIOSim(TunerConstants.FrontRight),
-                                new ModuleIOSim(TunerConstants.BackLeft),
-                                new ModuleIOSim(TunerConstants.BackRight));
-                break;
+                drive = new Drive(
+                        new GyroIO() {},
+                        new ModuleIOSim(TunerConstants.FrontLeft),
+                        new ModuleIOSim(TunerConstants.FrontRight),
+                        new ModuleIOSim(TunerConstants.BackLeft),
+                        new ModuleIOSim(TunerConstants.BackRight));
+                vision = new Vision(
+                        drive,
+                        new VisionIOPhotonVisionSim(
+                                "Front Camera",
+                                new Transform3d(
+                                        new Translation3d(
+                                                Units.inchesToMeters(-3),
+                                                Units.inchesToMeters(0),
+                                                Units.inchesToMeters(15)),
+                                        new Rotation3d(0, Math.toRadians(0), Math.toRadians(180))),
+                                drive::getPose),
+                        new VisionIOPhotonVisionSim(
+                                "Back Camera",
+                                new Transform3d(
+                                        new Translation3d(
+                                                Units.inchesToMeters(3),
+                                                Units.inchesToMeters(0),
+                                                Units.inchesToMeters(15)),
+                                        new Rotation3d(0, Math.toRadians(0), Math.toRadians(0))),
+                                drive::getPose));
+
+
+
+            break;
 
             default:
                 // Replayed robot, disable IO implementations
@@ -93,7 +123,8 @@ public class RobotContainer {
                                 new ModuleIO() {},
                                 new ModuleIO() {},
                                 new ModuleIO() {});
-                break;
+                vision = new Vision(drive, new VisionIO() {}, new VisionIO() {});
+
         }
 
         // Set up auto routines
