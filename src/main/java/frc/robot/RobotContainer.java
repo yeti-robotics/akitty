@@ -99,8 +99,8 @@ public class RobotContainer {
 
             default:
                 // Replayed robot, disable IO implementations
-                arm = new ArmSubsystem(new ArmIOTalonFX());
-                pivot = new PivotSubsystem(new PivotTalonFX(0, 0));
+                arm = new ArmSubsystem(new ArmIO() {});
+                pivot = new PivotSubsystem(new Pivot() {});
                 drive =
                         new Drive(
                                 new GyroIO() {},
