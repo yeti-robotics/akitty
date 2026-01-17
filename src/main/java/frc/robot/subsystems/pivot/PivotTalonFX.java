@@ -18,7 +18,6 @@ public class PivotTalonFX implements PivotIO {
         pivotMotor.getConfigurator().apply(new MotorOutputConfigs());
         pivotMotor.getConfigurator().apply(motorConfig());
     }
-
     private TalonFXConfiguration motorConfig() {
         return new TalonFXConfiguration()
                 .withSlot0(new Slot0Configs()

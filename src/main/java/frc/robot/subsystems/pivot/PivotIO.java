@@ -10,6 +10,7 @@ public interface PivotIO {
         public double angleIO = 0.0;
     }
 
+
     public default void updateInputs(PivotIOinput inputs) {}
 
     public default void setPosition(double position) {}
