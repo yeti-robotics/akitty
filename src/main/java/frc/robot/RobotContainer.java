@@ -27,7 +27,6 @@ import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.intakeFeederwheel.IntakeFeederwheelIO;
-import frc.robot.subsystems.intakeFeederwheel.IntakeFeederwheelIOSim;
 import frc.robot.subsystems.intakeFeederwheel.IntakeFeederwheelTalonFX;
 import frc.robot.subsystems.intakeFeederwheel.IntakeFeederwheelSubsystem;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -178,6 +177,13 @@ public class RobotContainer {
                                                                 Rotation2d.kZero)),
                                         drive)
                                 .ignoringDisable(true));
+
+        controller.
+                rightTrigger().
+                whileTrue(
+                        () -> intakeFeederwheel.startFeeders(0.5),
+                        () -> intakeFeederwheel.stopFeeders());
+
     }
 
     /**
