@@ -7,7 +7,6 @@ public class PivotSubsystem {
     private final PivotIO io;
     private final PivotIO.PivotIOinput inputs = new PivotIO.PivotIOinput();
 
-
     public PivotSubsystem(PivotIO io) {
         this.io = io;
     }
@@ -17,7 +16,7 @@ public class PivotSubsystem {
         Logger.processInputs("Pivot", (LoggableInputs) inputs);
     }
 
-    public void stop(){
+    public void stop() {
         io.stop();
     }
 
@@ -25,7 +24,3 @@ public class PivotSubsystem {
         io.setPosition(pivotPos.ordinal());
     }
 }
-
-
-
-

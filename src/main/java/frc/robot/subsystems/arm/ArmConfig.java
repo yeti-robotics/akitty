@@ -42,9 +42,7 @@ public class ArmConfig {
                     .withMotorOutput(
                             new MotorOutputConfigs()
                                     .withInverted(InvertedValue.CounterClockwise_Positive)
-
                                     .withNeutralMode(NeutralModeValue.Brake));
-
 
     static final CANcoderConfiguration cancoderConfiguration =
             new CANcoderConfiguration()
@@ -54,6 +52,4 @@ public class ArmConfig {
                                             SensorDirectionValue.CounterClockwise_Positive)
                                     .withMagnetOffset(magnetOffset)
                                     .withAbsoluteSensorDiscontinuityPoint(0.625));
-
-
 }

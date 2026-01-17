@@ -8,7 +8,6 @@ public interface PivotIO {
         public double pos = 0.0;
         public double velocity = 0.0;
         public double angleIO = 0.0;
-
     }
 
     public default void updateInputs(PivotIOinput inputs) {}

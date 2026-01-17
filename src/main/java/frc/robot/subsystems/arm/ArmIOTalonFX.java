@@ -15,8 +15,6 @@ public class ArmIOTalonFX implements ArmIO {
     private final TalonFX armKraken;
     private final CANcoder armCANCoder;
 
-
-
     public ArmIOTalonFX() {
         armKraken = new TalonFX(ArmConfig.armKrakenID, RIO_BUS);
         armCANCoder = new CANcoder(ArmConfig.armCANcoderID, RIO_BUS);

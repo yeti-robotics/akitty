@@ -17,7 +17,6 @@ public class PivotConfigs {
                                 .withKG(0.0)
                                 .withKS(0.0)
                                 .withKV(0.0))
-
                 .withCurrentLimits(
                         new CurrentLimitsConfigs()
                                 .withStatorCurrentLimit(0.0)

@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.arm.ArmIO;
 import frc.robot.subsystems.arm.ArmIOTalonFX;
 import frc.robot.subsystems.arm.ArmPosition;
 import frc.robot.subsystems.arm.ArmSubsystem;
@@ -28,6 +29,7 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.pivot.PivotIO;
 import frc.robot.subsystems.pivot.PivotPos;
 import frc.robot.subsystems.pivot.PivotSubsystem;
 import frc.robot.subsystems.pivot.PivotTalonFX;
@@ -100,7 +102,7 @@ public class RobotContainer {
             default:
                 // Replayed robot, disable IO implementations
                 arm = new ArmSubsystem(new ArmIO() {});
-                pivot = new PivotSubsystem(new Pivot() {});
+                pivot = new PivotSubsystem(new PivotIO() {});
                 drive =
                         new Drive(
                                 new GyroIO() {},
@@ -201,4 +203,3 @@ public class RobotContainer {
         return autoChooser.get();
     }
 }
-
