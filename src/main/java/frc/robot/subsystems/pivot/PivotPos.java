@@ -9,7 +9,6 @@ public enum PivotPos {
     position(0),
     PivotStowed((0.25));
 
-
     public final Angle angle;
 
     PivotPos(double rotations) {

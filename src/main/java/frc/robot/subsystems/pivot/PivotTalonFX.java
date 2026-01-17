@@ -18,20 +18,23 @@ public class PivotTalonFX implements PivotIO {
         pivotMotor.getConfigurator().apply(new MotorOutputConfigs());
         pivotMotor.getConfigurator().apply(motorConfig());
     }
+
     private TalonFXConfiguration motorConfig() {
         return new TalonFXConfiguration()
-                .withSlot0(new Slot0Configs()
-                        .withGravityType(GravityTypeValue.Arm_Cosine)
-                        .withKD(0.0)
-                        .withKP(0.0)
-                        .withKI(0.0)
-                        .withKG(0.0)
-                        .withKS(0.0)
-                        .withKV(0.0))
-                .withCurrentLimits(new CurrentLimitsConfigs()
-                        .withStatorCurrentLimit(0.0)
-                        .withSupplyCurrentLimit(0.0)
-                        .withStatorCurrentLimitEnable(true)
-                        .withSupplyCurrentLimitEnable(true));
+                .withSlot0(
+                        new Slot0Configs()
+                                .withGravityType(GravityTypeValue.Arm_Cosine)
+                                .withKD(0.0)
+                                .withKP(0.0)
+                                .withKI(0.0)
+                                .withKG(0.0)
+                                .withKS(0.0)
+                                .withKV(0.0))
+                .withCurrentLimits(
+                        new CurrentLimitsConfigs()
+                                .withStatorCurrentLimit(0.0)
+                                .withSupplyCurrentLimit(0.0)
+                                .withStatorCurrentLimitEnable(true)
+                                .withSupplyCurrentLimitEnable(true));
     }
 }

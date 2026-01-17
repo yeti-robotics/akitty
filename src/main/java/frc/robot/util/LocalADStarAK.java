@@ -101,7 +101,8 @@ public class LocalADStarAK implements Pathfinder {
      *     position of the path to properly avoid obstacles
      */
     @Override
-    public void setDynamicObstacles(List<Pair<Translation2d, Translation2d>> obs, Translation2d currentRobotPos) {
+    public void setDynamicObstacles(
+            List<Pair<Translation2d, Translation2d>> obs, Translation2d currentRobotPos) {
         if (!Logger.hasReplaySource()) {
             io.adStar.setDynamicObstacles(obs, currentRobotPos);
         }
@@ -135,7 +136,9 @@ public class LocalADStarAK implements Pathfinder {
 
             List<PathPoint> pathPoints = new ArrayList<>();
             for (int i = 0; i < pointsLogged.length; i += 2) {
-                pathPoints.add(new PathPoint(new Translation2d(pointsLogged[i], pointsLogged[i + 1]), null));
+                pathPoints.add(
+                        new PathPoint(
+                                new Translation2d(pointsLogged[i], pointsLogged[i + 1]), null));
             }
 
             currentPathPoints = pathPoints;
@@ -145,7 +148,8 @@ public class LocalADStarAK implements Pathfinder {
             isNewPathAvailable = adStar.isNewPathAvailable();
         }
 
-        public void updateCurrentPathPoints(PathConstraints constraints, GoalEndState goalEndState) {
+        public void updateCurrentPathPoints(
+                PathConstraints constraints, GoalEndState goalEndState) {
             PathPlannerPath currentPath = adStar.getCurrentPath(constraints, goalEndState);
 
             if (currentPath != null) {

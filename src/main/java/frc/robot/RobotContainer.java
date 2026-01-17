@@ -51,9 +51,7 @@ public class RobotContainer {
     // Dashboard inputs
     private final LoggedDashboardChooser<Command> autoChooser;
 
-    /**
-     * The container for the robot. Contains subsystems, OI devices, and commands.
-     */
+    /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         switch (Constants.currentMode) {
             case REAL:
@@ -62,12 +60,13 @@ public class RobotContainer {
                 // CANcoder
                 pivot = new PivotSubsystem(new PivotTalonFX(0, 0));
                 arm = new ArmSubsystem(new ArmIOTalonFX());
-                drive = new Drive(
-                        new GyroIOPigeon2(),
-                        new ModuleIOTalonFX(TunerConstants.FrontLeft),
-                        new ModuleIOTalonFX(TunerConstants.FrontRight),
-                        new ModuleIOTalonFX(TunerConstants.BackLeft),
-                        new ModuleIOTalonFX(TunerConstants.BackRight));
+                drive =
+                        new Drive(
+                                new GyroIOPigeon2(),
+                                new ModuleIOTalonFX(TunerConstants.FrontLeft),
+                                new ModuleIOTalonFX(TunerConstants.FrontRight),
+                                new ModuleIOTalonFX(TunerConstants.BackLeft),
+                                new ModuleIOTalonFX(TunerConstants.BackRight));
 
                 // The ModuleIOTalonFXS implementation provides an example implementation for
                 // TalonFXS controller connected to a CANdi with a PWM encoder. The implementations
@@ -89,20 +88,26 @@ public class RobotContainer {
                 // Sim robot, instantiate physics sim IO implementations
                 arm = new ArmSubsystem(new ArmIOTalonFX());
                 pivot = new PivotSubsystem(new PivotTalonFX(0, 0));
-                drive = new Drive(
-                        new GyroIO() {},
-                        new ModuleIOSim(TunerConstants.FrontLeft),
-                        new ModuleIOSim(TunerConstants.FrontRight),
-                        new ModuleIOSim(TunerConstants.BackLeft),
-                        new ModuleIOSim(TunerConstants.BackRight));
+                drive =
+                        new Drive(
+                                new GyroIO() {},
+                                new ModuleIOSim(TunerConstants.FrontLeft),
+                                new ModuleIOSim(TunerConstants.FrontRight),
+                                new ModuleIOSim(TunerConstants.BackLeft),
+                                new ModuleIOSim(TunerConstants.BackRight));
                 break;
 
             default:
                 // Replayed robot, disable IO implementations
                 arm = new ArmSubsystem(new ArmIOTalonFX());
                 pivot = new PivotSubsystem(new PivotTalonFX(0, 0));
-                drive = new Drive(
-                        new GyroIO() {}, new ModuleIO() {}, new ModuleIO() {}, new ModuleIO() {}, new ModuleIO() {});
+                drive =
+                        new Drive(
+                                new GyroIO() {},
+                                new ModuleIO() {},
+                                new ModuleIO() {},
+                                new ModuleIO() {},
+                                new ModuleIO() {});
                 break;
         }
 
@@ -110,14 +115,24 @@ public class RobotContainer {
         autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
         // Set up SysId routines
-        autoChooser.addOption("Drive Wheel Radius Characterization", DriveCommands.wheelRadiusCharacterization(drive));
-        autoChooser.addOption("Drive Simple FF Characterization", DriveCommands.feedforwardCharacterization(drive));
         autoChooser.addOption(
-                "Drive SysId (Quasistatic Forward)", drive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+                "Drive Wheel Radius Characterization",
+                DriveCommands.wheelRadiusCharacterization(drive));
         autoChooser.addOption(
-                "Drive SysId (Quasistatic Reverse)", drive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-        autoChooser.addOption("Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
-        autoChooser.addOption("Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+                "Drive Simple FF Characterization",
+                DriveCommands.feedforwardCharacterization(drive));
+        autoChooser.addOption(
+                "Drive SysId (Quasistatic Forward)",
+                drive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+        autoChooser.addOption(
+                "Drive SysId (Quasistatic Reverse)",
+                drive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+        autoChooser.addOption(
+                "Drive SysId (Dynamic Forward)",
+                drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
+        autoChooser.addOption(
+                "Drive SysId (Dynamic Reverse)",
+                drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
         // Configure the button bindings
         configureButtonBindings();
@@ -134,13 +149,21 @@ public class RobotContainer {
         controller.button(1).onTrue(Commands.runOnce(() -> System.out.println("A pressed")));
 
         // Default command, normal field-relative drive
-        drive.setDefaultCommand(DriveCommands.joystickDrive(
-                drive, () -> -controller.getLeftY(), () -> -controller.getLeftX(), () -> -controller.getRightX()));
+        drive.setDefaultCommand(
+                DriveCommands.joystickDrive(
+                        drive,
+                        () -> -controller.getLeftY(),
+                        () -> -controller.getLeftX(),
+                        () -> -controller.getRightX()));
         // Lock to 0° when A button is held
         controller
                 .a()
-                .whileTrue(DriveCommands.joystickDriveAtAngle(
-                        drive, () -> -controller.getLeftY(), () -> -controller.getLeftX(), () -> Rotation2d.kZero));
+                .whileTrue(
+                        DriveCommands.joystickDriveAtAngle(
+                                drive,
+                                () -> -controller.getLeftY(),
+                                () -> -controller.getLeftX(),
+                                () -> Rotation2d.kZero));
 
         // Switch to X pattern when X button is pressed
         controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
@@ -148,18 +171,26 @@ public class RobotContainer {
         // Reset gyro to 0° when B button is pressed
         controller
                 .b()
-                .onTrue(Commands.runOnce(
-                                () -> drive.setPose(new Pose2d(drive.getPose().getTranslation(), Rotation2d.kZero)),
-                                drive)
-                        .ignoringDisable(true));
+                .onTrue(
+                        Commands.runOnce(
+                                        () ->
+                                                drive.setPose(
+                                                        new Pose2d(
+                                                                drive.getPose().getTranslation(),
+                                                                Rotation2d.kZero)),
+                                        drive)
+                                .ignoringDisable(true));
 
         controller.button(1).onTrue(arm.moveToPosition(ArmPosition.ArmDown));
         controller.button(2).onTrue(arm.moveToPosition(ArmPosition.ArmStowed));
-        controller.leftBumper().whileTrue(Commands.run(() -> pivot.setPosition(PivotPos.PivotDown.position), (Subsystem)
-                pivot));
+        controller
+                .leftBumper()
+                .whileTrue(
+                        Commands.run(
+                                () -> pivot.setPosition(PivotPos.PivotDown.position),
+                                (Subsystem) pivot));
 
         /**
-         *
          * Use this to pass the autonomous command to the main {@link Robot} class.
          *
          * @return the command to run in autonomous
