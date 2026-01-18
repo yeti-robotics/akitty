@@ -18,7 +18,7 @@ public class IntakeFeederwheelSubsystem extends SubsystemBase {
         Logger.processInputs("Intake Feederwheel", inputs);
     }
 
-    public Command rollIn(double power) {
-        return runEnd(() -> io.setPower(power), () -> io.setPower(0));
+    public Command rollIn() {
+        return runEnd(() -> io.setPower(0.5), () -> io.setPower(0));
     }
 }

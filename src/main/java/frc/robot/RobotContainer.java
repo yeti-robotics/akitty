@@ -178,7 +178,7 @@ public class RobotContainer {
                                         drive)
                                 .ignoringDisable(true));
 
-        controller.rightTrigger().onTrue(intakeFeederwheel.rollIn(0.5));
+        controller.rightTrigger().onTrue(intakeFeederwheel.rollIn());
     }
 
     /**
