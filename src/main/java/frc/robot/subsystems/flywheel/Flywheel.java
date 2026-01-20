@@ -2,6 +2,7 @@ package frc.robot.subsystems.flywheel;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.littletonrobotics.junction.Logger;
 
 public class Flywheel extends SubsystemBase {
     // Auto logged classes for AKit
@@ -16,7 +17,7 @@ public class Flywheel extends SubsystemBase {
     public Flywheel(FlywheelIO io) {
         // Recording inputs from roller
         this.io = io;
-        //        Logger.processInputs("Flywheel", inputs); error
+        Logger.processInputs("Flywheel", inputs);
     }
 
     public Command setRoller(double power) {

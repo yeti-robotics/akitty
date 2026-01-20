@@ -1,12 +1,15 @@
 package frc.robot.subsystems.flywheel;
 
 import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.MotionMagicVelocityTorqueCurrentFOC;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import frc.robot.Robot;
 
 public class FlywheelIOTalonFX implements FlywheelIO {
     private final TalonFX leftMotor;
     private final TalonFX rightMotor;
+
+    private final VoltageOut voltageRequest = new VoltageOut(0);
 
     public FlywheelIOTalonFX() {
         leftMotor = new TalonFX(FlywheelConfigs.leftMotorID);
@@ -15,6 +18,11 @@ public class FlywheelIOTalonFX implements FlywheelIO {
         leftMotor.setControl(new Follower(rightMotor.getDeviceID(), false));
         leftMotor.getConfigurator().apply(FlywheelConfigs.rollerConfig);
         rightMotor.getConfigurator().apply(FlywheelConfigs.rollerConfig);
+        // add to sim
+        if (Robot.isSimulation()) {
+            //            PhysicsSim.getInstance.addTalonFX(leftMotor);
+            //            PhysicsSim.getInstance.addTalonFX(rightMotor);
+        }
     }
 
     @Override
@@ -28,7 +36,7 @@ public class FlywheelIOTalonFX implements FlywheelIO {
 
     @Override
     public void setRoller(double power) {
-        leftMotor.setControl(new MotionMagicVelocityTorqueCurrentFOC(power));
+        leftMotor.setControl(voltageRequest.withOutput(power));
         // right is follower so left only
     }
 }
