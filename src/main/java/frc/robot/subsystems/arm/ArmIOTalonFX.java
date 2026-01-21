@@ -1,7 +1,6 @@
 package frc.robot.subsystems.arm;
 
 import static frc.robot.constants.Constants.RIO_BUS;
-import static frc.robot.subsystems.arm.ArmConfig.*;
 import static frc.robot.subsystems.arm.ArmConfig.primaryTalonFXConfigs;
 
 import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
@@ -33,3 +32,4 @@ public class ArmIOTalonFX implements ArmIO {
         armKraken.setControl(new MotionMagicTorqueCurrentFOC(position));
     }
 }
+

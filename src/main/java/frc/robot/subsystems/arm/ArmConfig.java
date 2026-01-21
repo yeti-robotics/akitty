@@ -9,9 +9,9 @@ import frc.robot.Robot;
 
 public class ArmConfig {
 
-    public static final int armKrakenID = 21;
-    public static final int armCANcoderID = 5;
-    public static final double gearRatio = 1;
+    public static final int armKrakenID = 0;
+    public static final int armCANcoderID = 0;
+    public static final double gearRatio = 0.0;
     public static final double magnetOffset = 0.0;
 
     private static final Slot0Configs SLOT_0_CONFIGS =
@@ -37,7 +37,7 @@ public class ArmConfig {
                                     .withMotionMagicJerk(0))
                     .withFeedback(
                             new FeedbackConfigs()
-                                    .withRotorToSensorRatio(60)
+                                    .withRotorToSensorRatio(0)
                                     .withSensorToMechanismRatio(gearRatio))
                     .withMotorOutput(
                             new MotorOutputConfigs()
@@ -51,5 +51,6 @@ public class ArmConfig {
                                     .withSensorDirection(
                                             SensorDirectionValue.CounterClockwise_Positive)
                                     .withMagnetOffset(magnetOffset)
-                                    .withAbsoluteSensorDiscontinuityPoint(0.625));
+                                    .withAbsoluteSensorDiscontinuityPoint(0.0));
 }
+

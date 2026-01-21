@@ -24,3 +24,4 @@ public class PivotSubsystem {
         io.setPosition(pivotPos.ordinal());
     }
 }
+

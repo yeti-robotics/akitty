@@ -15,4 +15,10 @@ public class PivotTalonFX implements PivotIO {
         this.pivotMotor.getConfigurator().apply(new MotorOutputConfigs());
         this.pivotMotor.getConfigurator().apply(new MotionMagicConfigs());
     }
+
+    @Override
+    public void stop() {
+        pivotMotor.stopMotor();
+    }
 }
+
