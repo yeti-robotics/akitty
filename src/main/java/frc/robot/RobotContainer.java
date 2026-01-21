@@ -172,6 +172,13 @@ public class RobotContainer {
                                                                 Rotation2d.kZero)),
                                         drive)
                                 .ignoringDisable(true));
+        controller
+                .leftTrigger()
+                .whileTrue(
+                        Commands.run(
+                                () -> flywheel.setRoller(1)
+                        )
+                );
     }
 
     /**
