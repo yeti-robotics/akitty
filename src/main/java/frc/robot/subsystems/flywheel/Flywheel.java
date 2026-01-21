@@ -12,18 +12,17 @@ public class Flywheel extends SubsystemBase {
     @Override
     public void periodic() {
         io.updateInputs(inputs);
-    }
-
-    public Flywheel(FlywheelIO io) {
-        // Recording inputs from roller
-        this.io = io;
         Logger.processInputs("Flywheel", inputs);
     }
 
-    public Command setRoller(double power) {
+    public Flywheel(FlywheelIO io) {
+        this.io = io;
+    }
+
+    public Command setRoller(double velocity) {
         return runEnd(
                 () -> {
-                    io.setRoller(power);
+                    io.setRoller(velocity);
                 },
                 () -> {
                     io.setRoller(0);

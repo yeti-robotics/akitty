@@ -15,5 +15,5 @@ public interface FlywheelIO {
 
     public default void updateInputs(FlywheelIOInputs inputs) {}
 
-    public default void setRoller(double power) {}
+    public default void setRoller(double velocity) {}
 }

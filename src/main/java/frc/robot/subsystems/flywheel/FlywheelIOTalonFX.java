@@ -20,7 +20,6 @@ public class FlywheelIOTalonFX implements FlywheelIO {
         leftMotor.setControl(new Follower(rightMotor.getDeviceID(), false));
         leftMotor.getConfigurator().apply(FlywheelConfigs.rollerConfig);
         rightMotor.getConfigurator().apply(FlywheelConfigs.rollerConfig);
-        // add to sim
         if (Robot.isSimulation()) {
             PhysicsSim.getInstance().addTalonFX(leftMotor);
             PhysicsSim.getInstance().addTalonFX(rightMotor);
@@ -37,8 +36,7 @@ public class FlywheelIOTalonFX implements FlywheelIO {
     }
 
     @Override
-    public void setRoller(double power) {
-        leftMotor.setControl(motionRequest.withVelocity(power));
-        // right is follower so left only
+    public void setRoller(double velocity) {
+        leftMotor.setControl(motionRequest.withVelocity(velocity));
     }
 }
