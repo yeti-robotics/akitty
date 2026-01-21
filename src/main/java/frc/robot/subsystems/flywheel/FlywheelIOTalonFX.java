@@ -4,6 +4,7 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import frc.robot.Robot;
+import frc.robot.util.sim.PhysicsSim;
 
 public class FlywheelIOTalonFX implements FlywheelIO {
     private final TalonFX leftMotor;
@@ -20,8 +21,8 @@ public class FlywheelIOTalonFX implements FlywheelIO {
         rightMotor.getConfigurator().apply(FlywheelConfigs.rollerConfig);
         // add to sim
         if (Robot.isSimulation()) {
-            //            PhysicsSim.getInstance.addTalonFX(leftMotor);
-            //            PhysicsSim.getInstance.addTalonFX(rightMotor);
+            PhysicsSim.getInstance().addTalonFX(leftMotor);
+            PhysicsSim.getInstance().addTalonFX(rightMotor);
         }
     }
 
