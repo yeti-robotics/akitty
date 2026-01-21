@@ -28,6 +28,9 @@ local.properties
 # CDT-specific (C/C++ Development Tooling)
 .cproject
 
+# CTRE Simulation Files
+ctre_sim/
+
 # CDT- autotools
 .autotools
 
