@@ -25,6 +25,8 @@ import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.vision.*;
+import frc.robot.subsystems.flywheel.FlywheelIO;
+import frc.robot.subsystems.flywheel.FlywheelIOTalonFX;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import static frc.robot.subsystems.vision.VisionConstants.robotToCamera0;
@@ -39,6 +41,7 @@ public class RobotContainer {
     // Subsystems
     private final Drive drive;
     private final Vision vision;
+    private final FlywheelIO flywheel;
 
     // Controller
     private final CommandXboxController controller = new CommandXboxController(0);
@@ -79,6 +82,8 @@ public class RobotContainer {
                         drive,
                         new VisionIOLimelight("Front Camera", drive::getRotation),
                         new VisionIOLimelight("Back Camera", drive::getRotation));
+
+                flywheel = new FlywheelIOTalonFX();
                 break;
 
             case SIM:
@@ -113,6 +118,16 @@ public class RobotContainer {
 
 
             break;
+                drive =
+                        new Drive(
+                                new GyroIO() {},
+                                new ModuleIOSim(TunerConstants.FrontLeft),
+                                new ModuleIOSim(TunerConstants.FrontRight),
+                                new ModuleIOSim(TunerConstants.BackLeft),
+                                new ModuleIOSim(TunerConstants.BackRight));
+
+                flywheel = new FlywheelIOTalonFX();
+                break;
 
             default:
                 // Replayed robot, disable IO implementations
@@ -125,6 +140,9 @@ public class RobotContainer {
                                 new ModuleIO() {});
                 vision = new Vision(drive, new VisionIO() {}, new VisionIO() {});
 
+
+                flywheel = new FlywheelIO() {};
+                break;
         }
 
         // Set up auto routines
@@ -194,6 +212,7 @@ public class RobotContainer {
                                                                 Rotation2d.kZero)),
                                         drive)
                                 .ignoringDisable(true));
+        controller.leftTrigger().whileTrue(Commands.run(() -> flywheel.setRoller(1)));
     }
 
     /**
