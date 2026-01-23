@@ -2,7 +2,6 @@ package frc.robot.subsystems.flywheel;
 
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
-import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import frc.robot.Robot;
 import frc.robot.util.sim.PhysicsSim;
