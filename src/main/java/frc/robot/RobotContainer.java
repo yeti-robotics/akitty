@@ -29,6 +29,8 @@ import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.intakeFeederwheel.IntakeFeederwheelIO;
 import frc.robot.subsystems.intakeFeederwheel.IntakeFeederwheelSubsystem;
 import frc.robot.subsystems.intakeFeederwheel.IntakeFeederwheelTalonFX;
+import frc.robot.subsystems.flywheel.FlywheelIO;
+import frc.robot.subsystems.flywheel.FlywheelIOTalonFX;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -41,6 +43,7 @@ public class RobotContainer {
     // Subsystems
     private final Drive drive;
     private IntakeFeederwheelSubsystem intakeFeederwheel;
+    private final FlywheelIO flywheel;
 
     // Controller
     private final CommandXboxController controller = new CommandXboxController(0);
@@ -80,6 +83,7 @@ public class RobotContainer {
 
                 intakeFeederwheel = new IntakeFeederwheelSubsystem(new IntakeFeederwheelTalonFX());
 
+                flywheel = new FlywheelIOTalonFX();
                 break;
 
             case SIM:
@@ -94,6 +98,7 @@ public class RobotContainer {
 
                 intakeFeederwheel = new IntakeFeederwheelSubsystem(new IntakeFeederwheelTalonFX());
 
+                flywheel = new FlywheelIOTalonFX();
                 break;
 
             default:
@@ -108,6 +113,7 @@ public class RobotContainer {
 
                 intakeFeederwheel = new IntakeFeederwheelSubsystem(new IntakeFeederwheelIO() {});
 
+                flywheel = new FlywheelIO() {};
                 break;
         }
 
@@ -179,6 +185,7 @@ public class RobotContainer {
                                 .ignoringDisable(true));
 
         controller.rightTrigger().onTrue(intakeFeederwheel.rollIn());
+        controller.leftTrigger().whileTrue(Commands.run(() -> flywheel.setRoller(1)));
     }
 
     /**
