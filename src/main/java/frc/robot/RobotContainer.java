@@ -14,15 +14,10 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.arm.ArmIO;
-import frc.robot.subsystems.arm.ArmIOTalonFX;
-import frc.robot.subsystems.arm.ArmPosition;
-import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -44,7 +39,6 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
     // Subsystems
     private final Drive drive;
-    public final ArmSubsystem arm;
     public final PivotSubsystem pivot;
 
     // Controller
@@ -60,8 +54,8 @@ public class RobotContainer {
                 // Real robot, instantiate hardware IO implementations
                 // ModuleIOTalonFX is intended for modules with TalonFX drive, TalonFX turn, and a
                 // CANcoder
-                pivot = new PivotSubsystem(new PivotTalonFX(0, 0));
-                arm = new ArmSubsystem(new ArmIOTalonFX());
+                pivot = new PivotSubsystem(new PivotTalonFX());
+
                 drive =
                         new Drive(
                                 new GyroIOPigeon2(),
@@ -87,9 +81,8 @@ public class RobotContainer {
                 break;
 
             case SIM:
-                // Sim robot, instantiate physics sim IO implementations
-                arm = new ArmSubsystem(new ArmIOTalonFX());
-                pivot = new PivotSubsystem(new PivotTalonFX(0, 0));
+                // Sim robot, instantiate physics sim IO implementation
+                pivot = new PivotSubsystem(new PivotTalonFX());
                 drive =
                         new Drive(
                                 new GyroIO() {},
@@ -101,7 +94,6 @@ public class RobotContainer {
 
             default:
                 // Replayed robot, disable IO implementations
-                arm = new ArmSubsystem(new ArmIO() {});
                 pivot = new PivotSubsystem(new PivotIO() {});
                 drive =
                         new Drive(
@@ -148,8 +140,6 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
 
-        controller.button(1).onTrue(Commands.runOnce(() -> System.out.println("A pressed")));
-
         // Default command, normal field-relative drive
         drive.setDefaultCommand(
                 DriveCommands.joystickDrive(
@@ -183,14 +173,10 @@ public class RobotContainer {
                                         drive)
                                 .ignoringDisable(true));
 
-        controller.button(1).onTrue(arm.moveToPosition(ArmPosition.ArmDown));
-        controller.button(2).onTrue(arm.moveToPosition(ArmPosition.ArmStowed));
         controller
                 .leftBumper()
                 .whileTrue(
-                        Commands.run(
-                                () -> pivot.setPosition(PivotPos.PivotDown.position),
-                                (Subsystem) pivot));
+                        Commands.run(() -> pivot.setPosition(PivotPos.PivotDown.position), pivot));
 
         /**
          * Use this to pass the autonomous command to the main {@link Robot} class.
