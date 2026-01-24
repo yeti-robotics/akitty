@@ -22,7 +22,6 @@ public class VisionIOLimelight implements VisionIO {
     private final DoubleSubscriber latencySubscriber;
     private final DoubleSubscriber txSubscriber;
     private final DoubleSubscriber tySubscriber;
-    private final DoubleArraySubscriber megatag1Subscriber;
     private final DoubleArraySubscriber megatag2Subscriber;
 
     public VisionIOLimelight(String name, Supplier<Rotation2d> rotationSupplier) {
@@ -32,8 +31,6 @@ public class VisionIOLimelight implements VisionIO {
         latencySubscriber = table.getDoubleTopic("tl").subscribe(0.0);
         txSubscriber = table.getDoubleTopic("tx").subscribe(0.0);
         tySubscriber = table.getDoubleTopic("ty").subscribe(0.0);
-        megatag1Subscriber =
-                table.getDoubleArrayTopic("botpose_wpiblue").subscribe(new double[] {});
         megatag2Subscriber =
                 table.getDoubleArrayTopic("botpose_orb_wpiblue").subscribe(new double[] {});
     }
@@ -55,20 +52,7 @@ public class VisionIOLimelight implements VisionIO {
 
         Set<Integer> tagIds = new HashSet<>();
         List<PoseObservation> poseObservations = new LinkedList<>();
-        for (var rawSample : megatag1Subscriber.readQueue()) {
-            if (rawSample.value.length == 0) continue;
-            for (int i = 11; i < rawSample.value.length; i += 7) {
-                tagIds.add((int) rawSample.value[i]);
-            }
-            poseObservations.add(
-                    new PoseObservation(
-                            rawSample.timestamp * 1.0e-6 - rawSample.value[6] * 1.0e-3,
-                            parsePose(rawSample.value),
-                            rawSample.value.length >= 18 ? rawSample.value[17] : 0.0,
-                            (int) rawSample.value[7],
-                            rawSample.value[9],
-                            PoseObservationType.MEGATAG_1));
-        }
+
         for (var rawSample : megatag2Subscriber.readQueue()) {
             if (rawSample.value.length == 0) continue;
             for (int i = 11; i < rawSample.value.length; i += 7) {
