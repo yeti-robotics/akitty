@@ -15,6 +15,7 @@ public class PivotSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+
         io.updateInputs(inputs);
         Logger.processInputs("Pivot", (LoggableInputs) inputs);
     }
