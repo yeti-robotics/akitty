@@ -8,6 +8,7 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.RobotBase;
+import frc.robot.util.sim.PhysicsSim;
 
 public class ArmIOTalonFX implements ArmIO {
 
