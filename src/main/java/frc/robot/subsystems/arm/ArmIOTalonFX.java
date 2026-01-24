@@ -1,4 +1,4 @@
-package frc.robot.subsystems.arm;
+package frc.robot.subsystems.rm;
 
 import static frc.robot.subsystems.arm.ArmConfig.cancoderConfiguration;
 import static frc.robot.subsystems.arm.ArmConfig.primaryTalonFXConfigs;

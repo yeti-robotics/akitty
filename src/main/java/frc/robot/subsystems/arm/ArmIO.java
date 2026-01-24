@@ -1,4 +1,4 @@
-package frc.robot.subsystems.arm;
+package frc.robot.subsystems.rm;
 
 import edu.wpi.first.units.measure.Angle;
 import org.littletonrobotics.junction.AutoLog;
