@@ -28,7 +28,6 @@ public class PivotTalonFX implements PivotIO {
     }
 
     @Override
-
     public void setPosition(double positionRad) {}
 
     @Override

@@ -26,5 +26,4 @@ public class PivotConfigs {
                                     .withSupplyCurrentLimit(0.0)
                                     .withStatorCurrentLimitEnable(true)
                                     .withSupplyCurrentLimitEnable(true));
-
 }

@@ -82,7 +82,7 @@ public class RobotContainer {
 
             case SIM:
                 // Sim robot, instantiate physics sim IO implementation
-                pivot = new PivotSubsystem(new PivotTalonFX());
+                pivot = new PivotSubsystem(new PivotIO() {});
                 drive =
                         new Drive(
                                 new GyroIO() {},
@@ -143,7 +143,6 @@ public class RobotContainer {
         // Default command, normal field-relative drive
         drive.setDefaultCommand(
                 DriveCommands.joystickDrive(
-
                         drive,
                         () -> -controller.getLeftY(),
                         () -> -controller.getLeftX(),

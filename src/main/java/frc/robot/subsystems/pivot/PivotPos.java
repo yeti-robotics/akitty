@@ -13,7 +13,6 @@ public enum PivotPos {
         this(Units.Rotations.of(rotation));
     }
 
-
     PivotPos(Angle angle) {
         this.angle = angle;
     }
