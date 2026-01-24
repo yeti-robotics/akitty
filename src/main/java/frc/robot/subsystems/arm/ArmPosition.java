@@ -1,4 +1,4 @@
-package frc.robot.subsystems.rm;
+package frc.robot.subsystems.arm;
 
 import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
