@@ -13,7 +13,7 @@ public class ArmIOTalonFX implements ArmIO {
 
     private final TalonFX armKraken;
     private final CANcoder armCANCoder;
-    private final MotionMagicTorqueCurrentFOC control = new MotionMagicTorqueCurrentFOC(position);
+    private final MotionMagicTorqueCurrentFOC control = new MotionMagicTorqueCurrentFOC(0);
 
     public ArmIOTalonFX() {
         armKraken = new TalonFX(ArmConfig.armKrakenID, RIO_BUS);
