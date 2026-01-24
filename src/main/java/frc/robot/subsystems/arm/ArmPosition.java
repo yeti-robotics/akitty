@@ -4,8 +4,8 @@ import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
 
 public enum ArmPosition {
-    ArmDown((0.0)),
-    ArmStowed((0.25));
+    ArmDown(0.0),
+    ArmStowed(0.25);
 
     public final Angle angle;
 

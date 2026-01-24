@@ -12,7 +12,6 @@ import frc.robot.util.sim.PhysicsSim;
 
 public class ArmIOTalonFX implements ArmIO {
 
-    private static final String RIO_BUS = "";
     private final TalonFX armKraken;
     private final CANcoder armCANCoder;
     private final MotionMagicTorqueCurrentFOC control = new MotionMagicTorqueCurrentFOC(0);
