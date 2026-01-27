@@ -36,5 +36,4 @@ public class PivotSubsystem extends SubsystemBase {
         return new InstantCommand(() -> setPosition(pos), this);
     }
 
-
 }

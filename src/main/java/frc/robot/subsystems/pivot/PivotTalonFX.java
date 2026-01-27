@@ -32,7 +32,6 @@ public class PivotTalonFX implements PivotIO {
     public void setPosition(double positionRad) {
         // i am a little stuck on the setPosition tbh
     }
-
     @Override
     public void stop() {
         pivotMotor.stopMotor();

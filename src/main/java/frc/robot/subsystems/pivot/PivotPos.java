@@ -16,5 +16,4 @@ public enum PivotPos {
     PivotPos(Angle angle) {
         this.angle = angle;
     }
-
 }
