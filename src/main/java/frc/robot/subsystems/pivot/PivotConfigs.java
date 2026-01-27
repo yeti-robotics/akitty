@@ -9,6 +9,7 @@ public class PivotConfigs {
     public static final int pivotMotorID = 0;
     public static final int pivotCANcoderID = 0;
 
+
     public static TalonFXConfiguration motorConfig =
             new TalonFXConfiguration()
                     .withSlot0(

@@ -27,8 +27,11 @@ public class PivotTalonFX implements PivotIO {
         inputs.velocity = (double) pivotMotor.getVelocity().getValueAsDouble() * 2.0 * Math.PI;
     }
 
+
     @Override
-    public void setPosition(double positionRad) {}
+    public void setPosition(double positionRad) {
+        // i am a little stuck on the setPosition tbh
+    }
 
     @Override
     public void stop() {
