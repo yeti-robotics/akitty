@@ -42,8 +42,6 @@ public class PhysicsSim {
         }
     }
 
-    public void addCANCoder(CANcoder armCANCoder) {
-    }
 
 
     /** Holds information about a simulated device. */

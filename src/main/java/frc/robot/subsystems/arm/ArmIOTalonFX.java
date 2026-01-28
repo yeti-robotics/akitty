@@ -12,21 +12,19 @@ import frc.robot.util.sim.PhysicsSim;
 
 public class ArmIOTalonFX implements ArmIO {
 
-    private static final String RIO_BUS = "";
     private final TalonFX armKraken;
     private final CANcoder armCANCoder;
     private final MotionMagicTorqueCurrentFOC control = new MotionMagicTorqueCurrentFOC(0);
 
     public ArmIOTalonFX() {
-        armKraken = new TalonFX(ArmConfig.armKrakenID, RIO_BUS);
-        armCANCoder = new CANcoder(ArmConfig.armCANcoderID, RIO_BUS);
+        armKraken = new TalonFX(ArmConfig.armKrakenID);
+        armCANCoder = new CANcoder(ArmConfig.armCANcoderID);
 
         armKraken.getConfigurator().apply(primaryTalonFXConfigs);
         armCANCoder.getConfigurator().apply(cancoderConfiguration);
 
         if (RobotBase.isSimulation()) {
             PhysicsSim.getInstance().addTalonFX(armKraken);
-            PhysicsSim.getInstance().addCANCoder(armCANCoder);
         }
     }
 
