@@ -9,11 +9,11 @@ public enum ArmPosition {
 
     public final Angle angle;
 
-    ArmPosition(double rotations) {
-        this(Units.Rotations.of(rotations));
+    ArmPosition(double height) {
+        this.angle = Units.Rotations.of(height);
     }
 
-    ArmPosition(Angle angle) {
-        this.angle = angle;
+    public Angle get() {
+        return angle;
     }
 }

@@ -24,7 +24,7 @@ public class ArmIOTalonFX implements ArmIO {
         armCANCoder.getConfigurator().apply(cancoderConfiguration);
 
         if (RobotBase.isSimulation()) {
-            PhysicsSim.getInstance().addTalonFX(armKraken);
+            PhysicsSim.getInstance().addTalonFX(armKraken, armCANCoder);
         }
     }
 
