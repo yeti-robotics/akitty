@@ -18,7 +18,7 @@ public class ArmSubsystem extends SubsystemBase {
         Logger.processInputs("Arm", inputs);
     }
 
-    public Command moveToPosition(ArmPosition position) {
+    public Command moveToPosition(double position) {
         return runOnce(() -> io.moveToPosition(position.angle));
     }
 

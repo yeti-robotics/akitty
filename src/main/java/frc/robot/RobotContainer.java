@@ -22,6 +22,7 @@ import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.arm.ArmIO;
 import frc.robot.subsystems.arm.ArmIOTalonFX;
+import frc.robot.subsystems.arm.ArmPosition;
 import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
@@ -196,6 +197,7 @@ public class RobotContainer {
 
         controller.rightTrigger().onTrue(intakeFeederwheel.rollIn());
         controller.leftTrigger().whileTrue(Commands.run(() -> flywheel.setRoller(1)));
+        controller.rightBumper().onTrue(arm.moveToPosition(-0.5));
     }
 
     /**

@@ -13,4 +13,6 @@ public interface ArmIO {
     public default void updateInputs(ArmIOInputs inputs) {}
 
     public default void moveToPosition(Angle position) {}
+
+    default void applyPower(double power) {}
 }
