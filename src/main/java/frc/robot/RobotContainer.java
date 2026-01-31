@@ -9,6 +9,7 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -26,6 +27,8 @@ import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.flywheel.FlywheelIO;
 import frc.robot.subsystems.flywheel.FlywheelIOTalonFX;
+import frc.robot.subsystems.vision.*;
+import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -38,12 +41,20 @@ public class RobotContainer {
     // Subsystems
     private final Drive drive;
     private final FlywheelIO flywheel;
+    private final Vision vision;
 
     // Controller
     private final CommandXboxController controller = new CommandXboxController(0);
 
     // Dashboard inputs
     private final LoggedDashboardChooser<Command> autoChooser;
+
+    public void updateVisionSim() {
+        Pose3d frontCameraPose =
+                new Pose3d(drive.getPose()).transformBy(VisionConstants.frontCamTrans);
+
+        Logger.recordOutput("Front Cam Transform", frontCameraPose);
+    }
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -74,6 +85,9 @@ public class RobotContainer {
                 //         new ModuleIOTalonFXS(TunerConstants.FrontRight),
                 //         new ModuleIOTalonFXS(TunerConstants.BackLeft),
                 //         new ModuleIOTalonFXS(TunerConstants.BackRight));
+                vision =
+                        new Vision(
+                                drive, new VisionIOLimelight("Front Camera", drive::getRotation));
 
                 flywheel = new FlywheelIOTalonFX();
                 break;
@@ -89,6 +103,14 @@ public class RobotContainer {
                                 new ModuleIOSim(TunerConstants.BackRight));
 
                 flywheel = new FlywheelIOTalonFX();
+                vision =
+                        new Vision(
+                                drive,
+                                new VisionIOPhotonVisionSim(
+                                        "Front Camera",
+                                        VisionConstants.frontCamTrans,
+                                        drive::getPose));
+
                 break;
 
             default:
@@ -101,6 +123,7 @@ public class RobotContainer {
                                 new ModuleIO() {},
                                 new ModuleIO() {});
 
+                vision = new Vision(drive, new VisionIO() {}, new VisionIO() {});
                 flywheel = new FlywheelIO() {};
                 break;
         }
