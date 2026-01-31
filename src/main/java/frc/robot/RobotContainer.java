@@ -82,7 +82,7 @@ public class RobotContainer {
 
             case SIM:
                 // Sim robot, instantiate physics sim IO implementation
-                pivot = new PivotSubsystem(new PivotIO() {});
+                pivot = new PivotSubsystem(new PivotTalonFX() {});
                 drive =
                         new Drive(
                                 new GyroIO() {},
@@ -175,8 +175,7 @@ public class RobotContainer {
 
         controller
                 .leftBumper()
-                .whileTrue(
-                        Commands.run(() -> pivot.setPosition(PivotPos.PivotDown.position), pivot));
+                .onTrue(Commands.run(() -> pivot.setPosition(PivotPos.PivotDown), pivot));
 
         /**
          * Use this to pass the autonomous command to the main {@link Robot} class.

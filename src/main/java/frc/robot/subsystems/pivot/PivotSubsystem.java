@@ -1,13 +1,14 @@
 package frc.robot.subsystems.pivot;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import static edu.wpi.first.wpilibj2.command.Commands.runOnce;
+
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
-import org.littletonrobotics.junction.inputs.LoggableInputs;
 
 public class PivotSubsystem extends SubsystemBase {
     private final PivotIO io;
-    private final PivotIO.PivotIOinput inputs = new PivotIO.PivotIOinput();
+    private final PivotIOinputAutoLogged inputs = new PivotIOinputAutoLogged();
 
     public PivotSubsystem(PivotIO io) {
         this.io = io;
@@ -15,25 +16,19 @@ public class PivotSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-
         io.updateInputs(inputs);
-        Logger.processInputs("Pivot", (LoggableInputs) inputs);
-    }
-
-    public void stop() {
-        io.stop();
+        Logger.processInputs("Pivot", inputs);
     }
 
     public void setPosition(PivotPos pivotPos) {
-        io.setPosition(pivotPos.ordinal());
+        io.setPosition(pivotPos.position);
     }
 
-    public InstantCommand stopcom() {
-        return new InstantCommand(this::stop, this);
+    public Command stopCommand() {
+        return runOnce(io::stop);
     }
 
-    public InstantCommand insertPosCom(PivotPos pos) {
-        return new InstantCommand(() -> setPosition(pos), this);
+    public Command setPositionCommand(PivotPos pivotPos) {
+        return runEnd(() -> setPosition(pivotPos), io::stop);
     }
-
 }

@@ -1,19 +1,14 @@
 package frc.robot.subsystems.pivot;
 
-import edu.wpi.first.units.Units;
-import edu.wpi.first.units.measure.Angle;
+import static java.lang.Math.PI;
 
 public enum PivotPos {
     PivotDown(0.0),
-    position(0.0);
+    PivotUp(0.0);
 
-    private final Angle angle;
+    public final double position;
 
     PivotPos(double rotation) {
-        this(Units.Rotations.of(rotation));
-    }
-
-    PivotPos(Angle angle) {
-        this.angle = angle;
+        this.position = rotation * 2.0 * PI;
     }
 }
