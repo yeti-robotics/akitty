@@ -1,6 +1,8 @@
 package frc.robot.subsystems.pivot;
 
 import com.ctre.phoenix6.configs.*;
+import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.MotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -15,7 +17,7 @@ public class PivotTalonFX implements PivotIO {
         this.pivotCan = new CANcoder(PivotConfigs.pivotCANcoderID);
 
         TalonFXConfiguration config = PivotConfigs.motorConfig;
-        this.pivotMotor.getConfigurator().apply(new MotorOutputConfigs());
+        this.pivotMotor.getConfigurator().apply(config);
 
         if (RobotBase.isSimulation()) {
             PhysicsSim.getInstance().addTalonFX(pivotMotor);
@@ -29,8 +31,12 @@ public class PivotTalonFX implements PivotIO {
 
     @Override
     public void setPosition(double positionRad) {
-        double rotations = positionRad;
-        pivotMotor.set(rotations);
+        pivotMotor.setControl(new MotionMagicTorqueCurrentFOC(positionRad));
+    }
+
+    @Override
+    public void applyPower(double power) {
+        pivotMotor.setControl(new DutyCycleOut(power));
     }
 
     @Override

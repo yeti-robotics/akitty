@@ -82,7 +82,7 @@ public class RobotContainer {
 
             case SIM:
                 // Sim robot, instantiate physics sim IO implementation
-                pivot = new PivotSubsystem(new PivotTalonFX() {});
+                pivot = new PivotSubsystem(new PivotTalonFX());
                 drive =
                         new Drive(
                                 new GyroIO() {},

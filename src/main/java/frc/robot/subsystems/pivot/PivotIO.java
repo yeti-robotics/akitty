@@ -13,5 +13,7 @@ public interface PivotIO {
 
     public default void setPosition(double position) {}
 
+    public default void applyPower(double power) {}
+
     public default void stop() {}
 }
