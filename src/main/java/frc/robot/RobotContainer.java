@@ -20,6 +20,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.arm.ArmIO;
+import frc.robot.subsystems.arm.ArmIOTalonFX;
+import frc.robot.subsystems.arm.ArmPosition;
+import frc.robot.subsystems.arm.ArmSubsystem;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -44,6 +48,7 @@ public class RobotContainer {
     private final Drive drive;
     private IntakeFeederwheelSubsystem intakeFeederwheel;
     private final FlywheelIO flywheel;
+    private final ArmSubsystem arm;
 
     // Controller
     private final CommandXboxController controller = new CommandXboxController(0);
@@ -84,6 +89,8 @@ public class RobotContainer {
                 intakeFeederwheel = new IntakeFeederwheelSubsystem(new IntakeFeederwheelTalonFX());
 
                 flywheel = new FlywheelIOTalonFX();
+
+                arm = new ArmSubsystem(new ArmIOTalonFX());
                 break;
 
             case SIM:
@@ -99,6 +106,8 @@ public class RobotContainer {
                 intakeFeederwheel = new IntakeFeederwheelSubsystem(new IntakeFeederwheelTalonFX());
 
                 flywheel = new FlywheelIOTalonFX();
+
+                arm = new ArmSubsystem(new ArmIOTalonFX());
                 break;
 
             default:
@@ -114,6 +123,8 @@ public class RobotContainer {
                 intakeFeederwheel = new IntakeFeederwheelSubsystem(new IntakeFeederwheelIO() {});
 
                 flywheel = new FlywheelIO() {};
+
+                arm = new ArmSubsystem(new ArmIO() {});
                 break;
         }
 
@@ -186,6 +197,7 @@ public class RobotContainer {
 
         controller.rightTrigger().onTrue(intakeFeederwheel.rollIn());
         controller.leftTrigger().whileTrue(Commands.run(() -> flywheel.setRoller(1)));
+        controller.rightBumper().onTrue(arm.moveToPosition(-0.6));
     }
 
     /**
