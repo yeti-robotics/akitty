@@ -197,7 +197,7 @@ public class RobotContainer {
 
         controller.rightTrigger().onTrue(intakeFeederwheel.rollIn());
         controller.leftTrigger().whileTrue(Commands.run(() -> flywheel.setRoller(1)));
-        controller.rightBumper().onTrue(arm.moveToPosition(-0.5));
+        controller.rightBumper().onTrue(arm.moveToPosition(-0.6));
     }
 
     /**
