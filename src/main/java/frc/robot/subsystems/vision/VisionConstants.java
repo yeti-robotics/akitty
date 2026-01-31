@@ -9,12 +9,8 @@ import edu.wpi.first.math.util.Units;
 
 public class VisionConstants {
     public static AprilTagFieldLayout aprilTagLayout =
-            AprilTagFieldLayout.loadField(AprilTagFields.kDefaultField);
+            AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo);
 
-    public static String frontCam = "camera_0";
-
-    public static Transform3d robotToCamera0 =
-            new Transform3d(0.2, 0.0, 0.2, new Rotation3d(0.0, -0.4, 0.0));
 
     public static double maxAmbiguity = 0.3;
     public static double maxZError = 0.75;
@@ -30,8 +26,8 @@ public class VisionConstants {
     public static Transform3d frontCamTrans =
             new Transform3d(
                     new Translation3d(
-                            Units.inchesToMeters(13),
+                            Units.inchesToMeters(17),
                             Units.inchesToMeters(0),
-                            Units.inchesToMeters(19)),
-                    new Rotation3d(0, Math.toRadians(-15), Math.toRadians(180)));
+                            Units.inchesToMeters(21)),
+                    new Rotation3d(0, Math.toRadians(180), Math.toRadians(180)));
 }

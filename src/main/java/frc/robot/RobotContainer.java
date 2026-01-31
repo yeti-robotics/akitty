@@ -123,7 +123,7 @@ public class RobotContainer {
                                 new ModuleIO() {},
                                 new ModuleIO() {});
 
-                vision = new Vision(drive, new VisionIO() {}, new VisionIO() {});
+                vision = new Vision(drive, new VisionIO() {});
                 flywheel = new FlywheelIO() {};
                 break;
         }
