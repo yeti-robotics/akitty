@@ -11,12 +11,10 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
@@ -26,11 +24,10 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
-import frc.robot.subsystems.intakeFeederwheel.IntakeFeederwheelIO;
-import frc.robot.subsystems.intakeFeederwheel.IntakeFeederwheelSubsystem;
-import frc.robot.subsystems.intakeFeederwheel.IntakeFeederwheelTalonFX;
-import frc.robot.subsystems.flywheel.FlywheelIO;
-import frc.robot.subsystems.flywheel.FlywheelIOTalonFX;
+import frc.robot.subsystems.pivot.PivotIO;
+import frc.robot.subsystems.pivot.PivotPos;
+import frc.robot.subsystems.pivot.PivotSubsystem;
+import frc.robot.subsystems.pivot.PivotTalonFX;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -42,8 +39,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
     // Subsystems
     private final Drive drive;
-    private IntakeFeederwheelSubsystem intakeFeederwheel;
-    private final FlywheelIO flywheel;
+    public final PivotSubsystem pivot;
 
     // Controller
     private final CommandXboxController controller = new CommandXboxController(0);
@@ -58,6 +54,8 @@ public class RobotContainer {
                 // Real robot, instantiate hardware IO implementations
                 // ModuleIOTalonFX is intended for modules with TalonFX drive, TalonFX turn, and a
                 // CANcoder
+                pivot = new PivotSubsystem(new PivotTalonFX());
+
                 drive =
                         new Drive(
                                 new GyroIOPigeon2(),
@@ -80,14 +78,11 @@ public class RobotContainer {
                 //         new ModuleIOTalonFXS(TunerConstants.FrontRight),
                 //         new ModuleIOTalonFXS(TunerConstants.BackLeft),
                 //         new ModuleIOTalonFXS(TunerConstants.BackRight));
-
-                intakeFeederwheel = new IntakeFeederwheelSubsystem(new IntakeFeederwheelTalonFX());
-
-                flywheel = new FlywheelIOTalonFX();
                 break;
 
             case SIM:
-                // Sim robot, instantiate physics sim IO implementations
+                // Sim robot, instantiate physics sim IO implementation
+                pivot = new PivotSubsystem(new PivotTalonFX());
                 drive =
                         new Drive(
                                 new GyroIO() {},
@@ -95,14 +90,11 @@ public class RobotContainer {
                                 new ModuleIOSim(TunerConstants.FrontRight),
                                 new ModuleIOSim(TunerConstants.BackLeft),
                                 new ModuleIOSim(TunerConstants.BackRight));
-
-                intakeFeederwheel = new IntakeFeederwheelSubsystem(new IntakeFeederwheelTalonFX());
-
-                flywheel = new FlywheelIOTalonFX();
                 break;
 
             default:
                 // Replayed robot, disable IO implementations
+                pivot = new PivotSubsystem(new PivotIO() {});
                 drive =
                         new Drive(
                                 new GyroIO() {},
@@ -110,10 +102,6 @@ public class RobotContainer {
                                 new ModuleIO() {},
                                 new ModuleIO() {},
                                 new ModuleIO() {});
-
-                intakeFeederwheel = new IntakeFeederwheelSubsystem(new IntakeFeederwheelIO() {});
-
-                flywheel = new FlywheelIO() {};
                 break;
         }
 
@@ -146,10 +134,12 @@ public class RobotContainer {
 
     /**
      * Use this method to define your button->command mappings. Buttons can be created by
-     * instantiating a {@link GenericHID} or one of its subclasses ({@link Joystick} or {@link
-     * XboxController}), and then passing it to a {@link JoystickButton}.
+     * instantiating a {@link GenericHID} or one of its subclasses ({@link
+     * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
+     * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
+
         // Default command, normal field-relative drive
         drive.setDefaultCommand(
                 DriveCommands.joystickDrive(
@@ -157,7 +147,6 @@ public class RobotContainer {
                         () -> -controller.getLeftY(),
                         () -> -controller.getLeftX(),
                         () -> -controller.getRightX()));
-
         // Lock to 0° when A button is held
         controller
                 .a()
@@ -184,15 +173,17 @@ public class RobotContainer {
                                         drive)
                                 .ignoringDisable(true));
 
-        controller.rightTrigger().onTrue(intakeFeederwheel.rollIn());
-        controller.leftTrigger().whileTrue(Commands.run(() -> flywheel.setRoller(1)));
+        controller
+                .leftBumper()
+                .onTrue(Commands.run(() -> pivot.setPosition(PivotPos.PivotDown), pivot));
+
+        /**
+         * Use this to pass the autonomous command to the main {@link Robot} class.
+         *
+         * @return the command to run in autonomous
+         */
     }
 
-    /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
-     *
-     * @return the command to run in autonomous
-     */
     public Command getAutonomousCommand() {
         return autoChooser.get();
     }
