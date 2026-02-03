@@ -15,23 +15,24 @@ public class PivotTalonFX implements PivotIO {
     public PivotTalonFX() {
         this.pivotMotor = new TalonFX(PivotConfigs.pivotMotorID);
         this.pivotCan = new CANcoder(PivotConfigs.pivotCANcoderID);
-
-        TalonFXConfiguration config = PivotConfigs.motorConfig;
-        this.pivotMotor.getConfigurator().apply(config);
+        this.pivotMotor.getConfigurator().apply(PivotConfigs.motorConfig);
 
         if (RobotBase.isSimulation()) {
             PhysicsSim.getInstance().addTalonFX(pivotMotor);
         }
     }
 
-    public void updInputs(PivotIOinput inputs) {
+    @Override
+    public void updateInputs(PivotIOinput inputs) {
         inputs.pos = (double) pivotCan.getAbsolutePosition().getValueAsDouble();
         inputs.velocity = (double) pivotMotor.getVelocity().getValueAsDouble();
     }
 
+    private final MotionMagicTorqueCurrentFOC motionMagicReq = new MotionMagicTorqueCurrentFOC(0);
+
     @Override
     public void setPosition(double positionRad) {
-        pivotMotor.setControl(new MotionMagicTorqueCurrentFOC(positionRad));
+        pivotMotor.setControl(motionMagicReq.withPosition(positionRad));
     }
 
     @Override
