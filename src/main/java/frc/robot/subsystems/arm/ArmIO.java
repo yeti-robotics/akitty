@@ -14,5 +14,5 @@ public interface ArmIO {
 
     public default void moveToPosition(Angle position) {}
 
-    default void applyPower(int power) {}
+    default void applyPower(double power) {}
 }
