@@ -1,6 +1,7 @@
 package frc.robot.subsystems.pivot;
 
-import static java.lang.Math.PI;
+import edu.wpi.first.units.Units;
+
 
 public enum PivotPos {
     PivotDown(0.0),
@@ -9,6 +10,6 @@ public enum PivotPos {
     public final double position;
 
     PivotPos(double rotation) {
-        this.position = rotation * 2.0 * PI;
+        this.position = Units.Rotations.of(rotation).magnitude();
     }
 }

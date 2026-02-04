@@ -9,16 +9,18 @@ import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.util.PhysicsSim;
 
 public class PivotTalonFX implements PivotIO {
+    private final MotionMagicTorqueCurrentFOC motionMagicReq = new MotionMagicTorqueCurrentFOC(0);
     private final TalonFX pivotMotor;
     private final CANcoder pivotCan;
 
     public PivotTalonFX() {
+
         this.pivotMotor = new TalonFX(PivotConfigs.pivotMotorID);
         this.pivotCan = new CANcoder(PivotConfigs.pivotCANcoderID);
         this.pivotMotor.getConfigurator().apply(PivotConfigs.motorConfig);
 
         if (RobotBase.isSimulation()) {
-            PhysicsSim.getInstance().addTalonFX(pivotMotor);
+            PhysicsSim.getInstance().addTalonFX(pivotMotor, pivotCan);
         }
     }
 
@@ -28,7 +30,7 @@ public class PivotTalonFX implements PivotIO {
         inputs.velocity = (double) pivotMotor.getVelocity().getValueAsDouble();
     }
 
-    private final MotionMagicTorqueCurrentFOC motionMagicReq = new MotionMagicTorqueCurrentFOC(0);
+
 
     @Override
     public void setPosition(double positionRad) {
