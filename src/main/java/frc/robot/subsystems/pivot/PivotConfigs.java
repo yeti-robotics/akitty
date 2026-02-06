@@ -10,12 +10,14 @@ import com.ctre.phoenix6.signals.SensorDirectionValue;
 public class PivotConfigs {
     public static final int pivotMotorID = 1;
     public static final int pivotCANcoderID = 2;
-    //values may change as tuning progresses
+    // values may change as tuning progresses
     public static final CANcoderConfiguration canCoderConfig =
             new CANcoderConfiguration()
-                    .withMagnetSensor(new com.ctre.phoenix6.configs.MagnetSensorConfigs()
-                            .withSensorDirection(SensorDirectionValue.CounterClockwise_Positive)
-                            .withMagnetOffset(0.0));
+                    .withMagnetSensor(
+                            new com.ctre.phoenix6.configs.MagnetSensorConfigs()
+                                    .withSensorDirection(
+                                            SensorDirectionValue.CounterClockwise_Positive)
+                                    .withMagnetOffset(0.0));
     public static TalonFXConfiguration motorConfig =
             new TalonFXConfiguration()
                     .withSlot0(
@@ -33,5 +35,4 @@ public class PivotConfigs {
                                     .withSupplyCurrentLimit(0.0)
                                     .withStatorCurrentLimitEnable(true)
                                     .withSupplyCurrentLimitEnable(true));
-
 }

@@ -2,7 +2,6 @@ package frc.robot.subsystems.pivot;
 
 import edu.wpi.first.units.Units;
 
-
 public enum PivotPos {
     PivotDown(0.0),
     PivotUp(0.0);

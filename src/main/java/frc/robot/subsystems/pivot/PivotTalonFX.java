@@ -18,7 +18,7 @@ public class PivotTalonFX implements PivotIO {
         this.pivotMotor = new TalonFX(PivotConfigs.pivotMotorID);
         this.pivotCan = new CANcoder(PivotConfigs.pivotCANcoderID);
         this.pivotMotor.getConfigurator().apply(PivotConfigs.motorConfig);
-
+        this.pivotCan.getConfigurator().apply(PivotConfigs.canCoderConfig);
         if (RobotBase.isSimulation()) {
             PhysicsSim.getInstance().addTalonFX(pivotMotor, pivotCan);
         }
@@ -29,8 +29,6 @@ public class PivotTalonFX implements PivotIO {
         inputs.pos = (double) pivotCan.getAbsolutePosition().getValueAsDouble();
         inputs.velocity = (double) pivotMotor.getVelocity().getValueAsDouble();
     }
-
-
 
     @Override
     public void setPosition(double positionRad) {
