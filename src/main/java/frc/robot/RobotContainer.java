@@ -31,6 +31,9 @@ import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.flywheel.FlywheelIO;
 import frc.robot.subsystems.flywheel.FlywheelIOTalonFX;
+import frc.robot.subsystems.intakeFeederwheel.IntakeFeederwheelIO;
+import frc.robot.subsystems.intakeFeederwheel.IntakeFeederwheelSubsystem;
+import frc.robot.subsystems.intakeFeederwheel.IntakeFeederwheelTalonFX;
 import frc.robot.subsystems.vision.*;
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -47,6 +50,7 @@ public class RobotContainer {
     private final FlywheelIO flywheel;
     private final ArmSubsystem arm;
     private final Vision vision;
+    private IntakeFeederwheelSubsystem intakeFeederwheel;
 
     // Controller
     private final CommandXboxController controller = new CommandXboxController(0);
@@ -97,6 +101,8 @@ public class RobotContainer {
                 flywheel = new FlywheelIOTalonFX();
 
                 arm = new ArmSubsystem(new ArmIOTalonFX());
+
+                intakeFeederwheel = new IntakeFeederwheelSubsystem(new IntakeFeederwheelTalonFX());
                 break;
 
             case SIM:
@@ -120,6 +126,8 @@ public class RobotContainer {
                                         VisionConstants.frontCamTrans,
                                         drive::getPose));
 
+                intakeFeederwheel = new IntakeFeederwheelSubsystem(new IntakeFeederwheelTalonFX());
+
                 break;
 
             default:
@@ -134,7 +142,8 @@ public class RobotContainer {
 
                 vision = new Vision(drive, new VisionIO() {});
                 flywheel = new FlywheelIO() {};
-
+                intakeFeederwheel = new IntakeFeederwheelSubsystem(new IntakeFeederwheelIO() {
+                });
                 arm = new ArmSubsystem(new ArmIO() {});
                 break;
         }
@@ -208,6 +217,7 @@ public class RobotContainer {
                                 .ignoringDisable(true));
         controller.leftTrigger().whileTrue(Commands.run(() -> flywheel.setRoller(1)));
         controller.rightBumper().onTrue(arm.moveToPosition(ArmPosition.ArmDown.get()));
+        controller.rightTrigger().onTrue(intakeFeederwheel.rollIn());
     }
 
     /**

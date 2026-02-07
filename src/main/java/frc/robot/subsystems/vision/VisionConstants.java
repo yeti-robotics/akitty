@@ -11,7 +11,6 @@ public class VisionConstants {
     public static AprilTagFieldLayout aprilTagLayout =
             AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo);
 
-
     public static double maxAmbiguity = 0.3;
     public static double maxZError = 0.75;
 

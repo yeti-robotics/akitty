@@ -42,8 +42,6 @@ public class PhysicsSim {
         }
     }
 
-
-
     /** Holds information about a simulated device. */
     static class SimProfile {
         private double _lastTime;
