@@ -159,8 +159,6 @@ public class RobotContainer {
         controller.start().onTrue(Commands.runOnce(drive::seedFieldCentric, drive));
         controller.leftTrigger().whileTrue(Commands.run(() -> flywheel.setRoller(1)));
         controller.rightBumper().onTrue(arm.moveToPosition(ArmPosition.ArmDown.get()));
-
-
     }
 
     /**
