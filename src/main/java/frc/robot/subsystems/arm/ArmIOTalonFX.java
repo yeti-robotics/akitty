@@ -45,4 +45,3 @@ public class ArmIOTalonFX implements ArmIO {
         armKraken.setControl(new DutyCycleOut(Power));
     }
 }
-
