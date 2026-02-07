@@ -13,7 +13,6 @@ public class ArmSubsystem extends SubsystemBase {
         this.io = io;
     }
 
-
     @Override
     public void periodic() {
         io.updateInputs(inputs);
@@ -23,6 +22,7 @@ public class ArmSubsystem extends SubsystemBase {
     public Command moveToPosition(Angle position) {
         return runOnce(() -> io.moveToPosition(position));
     }
+
     public void applyPower(double Power) {
         io.applyPower(Power);
     }
