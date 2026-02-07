@@ -27,10 +27,10 @@ public class PivotSubsystem extends SubsystemBase {
     }
 
     public Command setPositionCommand(PivotPos pivotPos) {
-        return runEnd(() -> setPosition(pivotPos), io::stop);
+        return run(() -> setPosition(pivotPos)).finallyDo(io::stop);
     }
 
     public Command applyPowerCommand(double power) {
-        return runEnd(() -> io.applyPower(power), io::stop);
+        return run(() -> io.applyPower(power)).finallyDo(io::stop);
     }
 }
