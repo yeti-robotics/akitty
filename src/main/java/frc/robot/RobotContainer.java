@@ -12,7 +12,6 @@ import static edu.wpi.first.units.Units.RotationsPerSecond;
 
 import com.ctre.phoenix6.swerve.SwerveModule;
 import com.ctre.phoenix6.swerve.SwerveRequest;
-import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -30,7 +29,6 @@ import frc.robot.subsystems.flywheel.FlywheelIO;
 import frc.robot.subsystems.flywheel.FlywheelIOTalonFX;
 import frc.robot.subsystems.vision.*;
 import org.littletonrobotics.junction.Logger;
-import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -49,13 +47,13 @@ public class RobotContainer {
     private final CommandXboxController controller = new CommandXboxController(0);
 
     // Dashboard inputs
-    private final LoggedDashboardChooser<Command> autoChooser;
+    //    private final LoggedDashboardChooser<Command> autoChooser;
 
     private final SwerveRequest.FieldCentric driveRequest =
             new SwerveRequest.FieldCentric()
                     .withDeadband(TunerConstants.kSpeedAt12Volts.in(Units.MetersPerSecond) * 0.1)
                     .withRotationalDeadband(RotationsPerSecond.of(1).in(RadiansPerSecond) * 0.1)
-                    .withDriveRequestType(SwerveModule.DriveRequestType.OpenLoopVoltage);
+                    .withDriveRequestType(SwerveModule.DriveRequestType.Velocity);
 
     public void updateVisionSim() {
         Pose3d frontCameraPose =
@@ -125,7 +123,8 @@ public class RobotContainer {
         }
 
         // Set up auto routines
-        autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
+        //        autoChooser = new LoggedDashboardChooser<>("Auto Choices",
+        // AutoBuilder.buildAutoChooser());
 
         // Set up SysId routines
 
@@ -160,6 +159,8 @@ public class RobotContainer {
         controller.start().onTrue(Commands.runOnce(drive::seedFieldCentric, drive));
         controller.leftTrigger().whileTrue(Commands.run(() -> flywheel.setRoller(1)));
         controller.rightBumper().onTrue(arm.moveToPosition(ArmPosition.ArmDown.get()));
+
+
     }
 
     /**
@@ -168,6 +169,6 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return autoChooser.get();
+        return Commands.none();
     }
 }

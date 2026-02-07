@@ -270,7 +270,6 @@ public class CommandSwerveDrivetrain extends TunerConstants.TunerSwerveDrivetrai
                 visionRobotPoseMeters, Utils.fpgaToCurrentTime(timestampSeconds));
     }
 
-
     /**
      * Adds a vision measurement to the Kalman Filter. This will correct the odometry pose estimate
      * while still accounting for measurement noise.
