@@ -4,6 +4,7 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import frc.robot.Robot;
+import frc.robot.constants.Constants;
 import frc.robot.util.sim.PhysicsSim;
 
 public class FlywheelIOTalonFX implements FlywheelIO {
@@ -13,8 +14,8 @@ public class FlywheelIOTalonFX implements FlywheelIO {
     private final MotionMagicVelocityVoltage motionRequest = new MotionMagicVelocityVoltage(0);
 
     public FlywheelIOTalonFX() {
-        leftMotor = new TalonFX(FlywheelConfigs.leftMotorID);
-        rightMotor = new TalonFX(FlywheelConfigs.rightMotorID);
+        leftMotor = new TalonFX(FlywheelConfigs.leftMotorID, Constants.canivoreBus);
+        rightMotor = new TalonFX(FlywheelConfigs.rightMotorID, Constants.canivoreBus);
         // make left a follower of right
         leftMotor.setControl(new Follower(rightMotor.getDeviceID(), false));
         leftMotor.getConfigurator().apply(FlywheelConfigs.rollerConfig);

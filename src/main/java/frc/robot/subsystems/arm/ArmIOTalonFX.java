@@ -9,6 +9,7 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.RobotBase;
+import frc.robot.constants.Constants;
 import frc.robot.util.sim.PhysicsSim;
 
 public class ArmIOTalonFX implements ArmIO {
@@ -18,8 +19,8 @@ public class ArmIOTalonFX implements ArmIO {
     private final MotionMagicTorqueCurrentFOC control = new MotionMagicTorqueCurrentFOC(0);
 
     public ArmIOTalonFX() {
-        armKraken = new TalonFX(ArmConfig.armKrakenID);
-        armCANCoder = new CANcoder(ArmConfig.armCANcoderID);
+        armKraken = new TalonFX(ArmConfig.armKrakenID, Constants.canivoreBus);
+        armCANCoder = new CANcoder(ArmConfig.armCANcoderID, Constants.canivoreBus);
 
         armKraken.getConfigurator().apply(primaryTalonFXConfigs);
         armCANCoder.getConfigurator().apply(cancoderConfiguration);

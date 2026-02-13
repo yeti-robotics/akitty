@@ -3,6 +3,7 @@ package frc.robot.subsystems.intakeFeederwheel;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import frc.robot.Robot;
+import frc.robot.constants.Constants;
 import frc.robot.util.sim.PhysicsSim;
 
 public class IntakeFeederwheelTalonFX implements IntakeFeederwheelIO {
@@ -11,7 +12,8 @@ public class IntakeFeederwheelTalonFX implements IntakeFeederwheelIO {
     private final VoltageOut voltageRequest = new VoltageOut(0);
 
     public IntakeFeederwheelTalonFX() {
-        feederwheelMotor = new TalonFX(IntakeFeederwheelConfig.FeederwheelMotorID);
+        feederwheelMotor =
+                new TalonFX(IntakeFeederwheelConfig.FeederwheelMotorID, Constants.canivoreBus);
         if (Robot.isSimulation()) {
             PhysicsSim.getInstance().addTalonFX(feederwheelMotor);
         }
