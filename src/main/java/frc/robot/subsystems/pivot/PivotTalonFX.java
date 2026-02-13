@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.util.PhysicsSim;
 
 public class PivotTalonFX implements PivotIO {
+    private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
     private final MotionMagicTorqueCurrentFOC motionMagicReq = new MotionMagicTorqueCurrentFOC(0);
     private final TalonFX pivotMotor;
     private final CANcoder pivotCan;
@@ -26,8 +27,8 @@ public class PivotTalonFX implements PivotIO {
 
     @Override
     public void updateInputs(PivotIOinput inputs) {
-        inputs.pos = (double) pivotCan.getAbsolutePosition().getValueAsDouble();
-        inputs.velocity = (double) pivotMotor.getVelocity().getValueAsDouble();
+        inputs.pos = pivotCan.getAbsolutePosition().getValueAsDouble();
+        inputs.velocity = pivotMotor.getVelocity().getValueAsDouble();
     }
 
     @Override
@@ -37,7 +38,7 @@ public class PivotTalonFX implements PivotIO {
 
     @Override
     public void applyPower(double power) {
-        pivotMotor.setControl(new DutyCycleOut(power));
+        pivotMotor.setControl(dutyCycleOut.withOutput(power));
     }
 
     @Override

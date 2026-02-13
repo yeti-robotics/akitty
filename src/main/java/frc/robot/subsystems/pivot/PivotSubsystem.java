@@ -1,5 +1,8 @@
 package frc.robot.subsystems.pivot;
 
+import com.ctre.phoenix6.controls.ControlRequest;
+import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
@@ -18,19 +21,23 @@ public class PivotSubsystem extends SubsystemBase {
         Logger.processInputs("Pivot", inputs);
     }
 
+    public void setControl(ControlRequest request) {
+        io.setControl(request);
+    }
+
     public void setPosition(PivotPos pivotPos) {
         io.setPosition(pivotPos.position);
     }
 
-    public Command stopCommand() {
-        return runOnce(io::stop);
-    }
+    private final MotionMagicVoltage m_positionRequest = new MotionMagicVoltage(0);
+    private final DutyCycleOut m_dutyCycleRequest = new DutyCycleOut(0);
 
     public Command setPositionCommand(PivotPos pivotPos) {
-        return run(() -> setPosition(pivotPos)).finallyDo(io::stop);
+        return runOnce(() -> setControl(m_positionRequest.withPosition(pivotPos.position)))
+                .finallyDo(io::stop);
     }
 
     public Command applyPowerCommand(double power) {
-        return run(() -> io.applyPower(power)).finallyDo(io::stop);
+        return runOnce(() -> setControl(m_dutyCycleRequest.withOutput(power))).finallyDo(io::stop);
     }
 }
