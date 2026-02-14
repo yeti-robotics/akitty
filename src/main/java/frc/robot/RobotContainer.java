@@ -125,8 +125,7 @@ public class RobotContainer {
 
                 vision = new Vision(drive, new VisionIO() {});
                 flywheel = new FlywheelIO() {};
-                intakeFeederwheel = new IntakeFeederwheelSubsystem(new IntakeFeederwheelIO() {
-                });
+                intakeFeederwheel = new IntakeFeederwheelSubsystem(new IntakeFeederwheelIO() {});
                 arm = new ArmSubsystem(new ArmIO() {});
                 break;
         }
