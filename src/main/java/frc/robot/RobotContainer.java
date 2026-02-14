@@ -7,28 +7,24 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import edu.wpi.first.math.geometry.Pose2d;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
+
+import com.ctre.phoenix6.swerve.SwerveModule;
+import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.arm.ArmIO;
 import frc.robot.subsystems.arm.ArmIOTalonFX;
 import frc.robot.subsystems.arm.ArmPosition;
 import frc.robot.subsystems.arm.ArmSubsystem;
-import frc.robot.subsystems.drive.Drive;
-import frc.robot.subsystems.drive.GyroIO;
-import frc.robot.subsystems.drive.GyroIOPigeon2;
-import frc.robot.subsystems.drive.ModuleIO;
-import frc.robot.subsystems.drive.ModuleIOSim;
-import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.drive.*;
 import frc.robot.subsystems.flywheel.FlywheelIO;
 import frc.robot.subsystems.flywheel.FlywheelIOTalonFX;
 import frc.robot.subsystems.intakeFeederwheel.IntakeFeederwheelIO;
@@ -36,7 +32,6 @@ import frc.robot.subsystems.intakeFeederwheel.IntakeFeederwheelSubsystem;
 import frc.robot.subsystems.intakeFeederwheel.IntakeFeederwheelTalonFX;
 import frc.robot.subsystems.vision.*;
 import org.littletonrobotics.junction.Logger;
-import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -46,7 +41,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
  */
 public class RobotContainer {
     // Subsystems
-    private final Drive drive;
+    private final CommandSwerveDrivetrain drive;
     private final FlywheelIO flywheel;
     private final ArmSubsystem arm;
     private final Vision vision;
@@ -56,12 +51,18 @@ public class RobotContainer {
     private final CommandXboxController controller = new CommandXboxController(0);
 
     // Dashboard inputs
-    private final LoggedDashboardChooser<Command> autoChooser;
+    //    private final LoggedDashboardChooser<Command> autoChooser;
+
+    private final SwerveRequest.FieldCentric driveRequest =
+            new SwerveRequest.FieldCentric()
+                    .withDeadband(TunerConstants.kSpeedAt12Volts.in(Units.MetersPerSecond) * 0.1)
+                    .withRotationalDeadband(RotationsPerSecond.of(1).in(RadiansPerSecond) * 0.1)
+                    .withDriveRequestType(SwerveModule.DriveRequestType.Velocity);
 
     public void updateVisionSim() {
         Pose3d frontCameraPose =
-                new Pose3d(drive.getPose()).transformBy(VisionConstants.frontCamTrans);
-
+                new Pose3d(drive.getState().Pose).transformBy(VisionConstants.frontCamTrans);
+        Logger.recordOutput("Front Cam Transform", frontCameraPose);
         Logger.recordOutput("Front Cam Transform", frontCameraPose);
     }
 
@@ -72,13 +73,7 @@ public class RobotContainer {
                 // Real robot, instantiate hardware IO implementations
                 // ModuleIOTalonFX is intended for modules with TalonFX drive, TalonFX turn, and a
                 // CANcoder
-                drive =
-                        new Drive(
-                                new GyroIOPigeon2(),
-                                new ModuleIOTalonFX(TunerConstants.FrontLeft),
-                                new ModuleIOTalonFX(TunerConstants.FrontRight),
-                                new ModuleIOTalonFX(TunerConstants.BackLeft),
-                                new ModuleIOTalonFX(TunerConstants.BackRight));
+                drive = TunerConstants.createDrivetrain();
 
                 // The ModuleIOTalonFXS implementation provides an example implementation for
                 // TalonFXS controller connected to a CANdi with a PWM encoder. The implementations
@@ -96,7 +91,9 @@ public class RobotContainer {
                 //         new ModuleIOTalonFXS(TunerConstants.BackRight));
                 vision =
                         new Vision(
-                                drive, new VisionIOLimelight("Front Camera", drive::getRotation));
+                                drive,
+                                new VisionIOLimelight(
+                                        "Front Camera", drive.getRotation3d()::toRotation2d));
 
                 flywheel = new FlywheelIOTalonFX();
 
@@ -107,13 +104,7 @@ public class RobotContainer {
 
             case SIM:
                 // Sim robot, instantiate physics sim IO implementations
-                drive =
-                        new Drive(
-                                new GyroIO() {},
-                                new ModuleIOSim(TunerConstants.FrontLeft),
-                                new ModuleIOSim(TunerConstants.FrontRight),
-                                new ModuleIOSim(TunerConstants.BackLeft),
-                                new ModuleIOSim(TunerConstants.BackRight));
+                drive = TunerConstants.createDrivetrain();
 
                 flywheel = new FlywheelIOTalonFX();
 
@@ -121,10 +112,8 @@ public class RobotContainer {
                 vision =
                         new Vision(
                                 drive,
-                                new VisionIOPhotonVisionSim(
-                                        "Front Camera",
-                                        VisionConstants.frontCamTrans,
-                                        drive::getPose));
+                                new VisionIOLimelight(
+                                        "Front Camera", drive.getRotation3d()::toRotation2d));
 
                 intakeFeederwheel = new IntakeFeederwheelSubsystem(new IntakeFeederwheelTalonFX());
 
@@ -132,13 +121,7 @@ public class RobotContainer {
 
             default:
                 // Replayed robot, disable IO implementations
-                drive =
-                        new Drive(
-                                new GyroIO() {},
-                                new ModuleIO() {},
-                                new ModuleIO() {},
-                                new ModuleIO() {},
-                                new ModuleIO() {});
+                drive = TunerConstants.createDrivetrain();
 
                 vision = new Vision(drive, new VisionIO() {});
                 flywheel = new FlywheelIO() {};
@@ -149,27 +132,10 @@ public class RobotContainer {
         }
 
         // Set up auto routines
-        autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
+        //        autoChooser = new LoggedDashboardChooser<>("Auto Choices",
+        // AutoBuilder.buildAutoChooser());
 
         // Set up SysId routines
-        autoChooser.addOption(
-                "Drive Wheel Radius Characterization",
-                DriveCommands.wheelRadiusCharacterization(drive));
-        autoChooser.addOption(
-                "Drive Simple FF Characterization",
-                DriveCommands.feedforwardCharacterization(drive));
-        autoChooser.addOption(
-                "Drive SysId (Quasistatic Forward)",
-                drive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-        autoChooser.addOption(
-                "Drive SysId (Quasistatic Reverse)",
-                drive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-        autoChooser.addOption(
-                "Drive SysId (Dynamic Forward)",
-                drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
-        autoChooser.addOption(
-                "Drive SysId (Dynamic Reverse)",
-                drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
         // Configure the button bindings
         configureButtonBindings();
@@ -184,37 +150,22 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // Default command, normal field-relative drive
         drive.setDefaultCommand(
-                DriveCommands.joystickDrive(
-                        drive,
-                        () -> -controller.getLeftY(),
-                        () -> -controller.getLeftX(),
-                        () -> -controller.getRightX()));
-
-        // Lock to 0° when A button is held
-        controller
-                .a()
-                .whileTrue(
-                        DriveCommands.joystickDriveAtAngle(
-                                drive,
-                                () -> -controller.getLeftY(),
-                                () -> -controller.getLeftX(),
-                                () -> Rotation2d.kZero));
-
-        // Switch to X pattern when X button is pressed
-        controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
-
-        // Reset gyro to 0° when B button is pressed
-        controller
-                .b()
-                .onTrue(
-                        Commands.runOnce(
-                                        () ->
-                                                drive.setPose(
-                                                        new Pose2d(
-                                                                drive.getPose().getTranslation(),
-                                                                Rotation2d.kZero)),
-                                        drive)
-                                .ignoringDisable(true));
+                drive.applyRequest(
+                        () ->
+                                driveRequest
+                                        .withVelocityX(
+                                                -controller.getLeftY()
+                                                        * TunerConstants.kSpeedAt12Volts
+                                                                .magnitude())
+                                        .withVelocityY(
+                                                -controller.getLeftX()
+                                                        * TunerConstants.kSpeedAt12Volts
+                                                                .magnitude())
+                                        .withRotationalRate(
+                                                -controller.getRightX()
+                                                        * RotationsPerSecond.of(1)
+                                                                .in(RadiansPerSecond))));
+        controller.start().onTrue(Commands.runOnce(drive::seedFieldCentric, drive));
         controller.leftTrigger().whileTrue(Commands.run(() -> flywheel.setRoller(1)));
         controller.rightBumper().onTrue(arm.moveToPosition(ArmPosition.ArmDown.get()));
         controller.rightTrigger().onTrue(intakeFeederwheel.rollIn());
@@ -226,6 +177,6 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return autoChooser.get();
+        return Commands.none();
     }
 }
