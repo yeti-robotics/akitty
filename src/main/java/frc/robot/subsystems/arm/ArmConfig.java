@@ -9,8 +9,8 @@ import frc.robot.Robot;
 
 public class ArmConfig {
 
-    public static final int armKrakenID = 9;
-    public static final int armCANcoderID = 9;
+    public static final int armKrakenID = 21;
+    public static final int armCANcoderID = 5;
     public static final double gearRatio = 60.0;
     public static final double magnetOffset = 0.0;
 

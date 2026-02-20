@@ -23,9 +23,6 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.vision.Vision;
 import java.util.Optional;
 import java.util.function.Supplier;
-import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
-import java.util.Optional;
-import java.util.function.Supplier;
 
 /**
  * Class that extends the Phoenix 6 SwerveDrivetrain class and implements Subsystem so it can easily

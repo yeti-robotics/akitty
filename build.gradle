@@ -1,171 +1,189 @@
-{
-    "fileName": "Phoenix5-frc2026-latest.json",
-    "name": "CTRE-Phoenix (v5)",
-    "version": "5.36.0",
-    "frcYear": "2026",
-    "uuid": "ab676553-b602-441f-a38d-f1296eff6537",
-    "mavenUrls": [
-        "https://maven.ctr-electronics.com/release/"
-],
-    "jsonUrl": "https://maven.ctr-electronics.com/release/com/ctre/phoenix/Phoenix5-frc2026-latest.json",
-    "requires": [
-        {
-            "uuid": "e995de00-2c64-4df5-8831-c1441420ff19",
-            "errorMessage": "Phoenix 5 requires low-level libraries from Phoenix 6.  Please add the Phoenix 6 vendordep before adding Phoenix 5.",
-            "offlineFileName": "Phoenix6-frc2026-latest.json",
-            "onlineUrl": "https://maven.ctr-electronics.com/release/com/ctre/phoenix6/latest/Phoenix6-frc2026-latest.json"
-        }
-],
-    "conflictsWith": [
-        {
-            "uuid": "e7900d8d-826f-4dca-a1ff-182f658e98af",
-            "errorMessage": "Users must use the Phoenix 5 replay vendordep when using the Phoenix 6 replay vendordep.",
-            "offlineFileName": "Phoenix6-replay-frc2026-latest.json"
-        },
-        {
-            "uuid": "fbc886a4-2cec-40c0-9835-71086a8cc3df",
-            "errorMessage": "Users cannot have both the replay and regular Phoenix 5 vendordeps in their robot program.",
-            "offlineFileName": "Phoenix5-replay-frc2026-latest.json"
-        }
-],
-    "javaDependencies": [
-        {
-            "groupId": "com.ctre.phoenix",
-            "artifactId": "api-java",
-            "version": "5.36.0"
-        },
-        {
-            "groupId": "com.ctre.phoenix",
-            "artifactId": "wpiapi-java",
-            "version": "5.36.0"
-        }
-],
-    "jniDependencies": [
-        {
-            "groupId": "com.ctre.phoenix",
-            "artifactId": "cci",
-            "version": "5.36.0",
-            "isJar": false,
-            "skipInvalidPlatforms": true,
-            "validPlatforms": [
-                "windowsx86-64",
-                "linuxx86-64",
-                "linuxarm64",
-                "linuxathena"
-        ],
-            "simMode": "hwsim"
-        },
-        {
-            "groupId": "com.ctre.phoenix.sim",
-            "artifactId": "cci-sim",
-            "version": "5.36.0",
-            "isJar": false,
-            "skipInvalidPlatforms": true,
-            "validPlatforms": [
-                "windowsx86-64",
-                "linuxx86-64",
-                "linuxarm64",
-                "osxuniversal"
-        ],
-            "simMode": "swsim"
-        }
-],
-    "cppDependencies": [
-        {
-            "groupId": "com.ctre.phoenix",
-            "artifactId": "wpiapi-cpp",
-            "version": "5.36.0",
-            "libName": "CTRE_Phoenix_WPI",
-            "headerClassifier": "headers",
-            "sharedLibrary": true,
-            "skipInvalidPlatforms": true,
-            "binaryPlatforms": [
-                "windowsx86-64",
-                "linuxx86-64",
-                "linuxarm64",
-                "linuxathena"
-        ],
-            "simMode": "hwsim"
-        },
-        {
-            "groupId": "com.ctre.phoenix",
-            "artifactId": "api-cpp",
-            "version": "5.36.0",
-            "libName": "CTRE_Phoenix",
-            "headerClassifier": "headers",
-            "sharedLibrary": true,
-            "skipInvalidPlatforms": true,
-            "binaryPlatforms": [
-                "windowsx86-64",
-                "linuxx86-64",
-                "linuxarm64",
-                "linuxathena"
-        ],
-            "simMode": "hwsim"
-        },
-        {
-            "groupId": "com.ctre.phoenix",
-            "artifactId": "cci",
-            "version": "5.36.0",
-            "libName": "CTRE_PhoenixCCI",
-            "headerClassifier": "headers",
-            "sharedLibrary": true,
-            "skipInvalidPlatforms": true,
-            "binaryPlatforms": [
-                "windowsx86-64",
-                "linuxx86-64",
-                "linuxarm64",
-                "linuxathena"
-        ],
-            "simMode": "hwsim"
-        },
-        {
-            "groupId": "com.ctre.phoenix.sim",
-            "artifactId": "wpiapi-cpp-sim",
-            "version": "5.36.0",
-            "libName": "CTRE_Phoenix_WPISim",
-            "headerClassifier": "headers",
-            "sharedLibrary": true,
-            "skipInvalidPlatforms": true,
-            "binaryPlatforms": [
-                "windowsx86-64",
-                "linuxx86-64",
-                "linuxarm64",
-                "osxuniversal"
-        ],
-            "simMode": "swsim"
-        },
-        {
-            "groupId": "com.ctre.phoenix.sim",
-            "artifactId": "api-cpp-sim",
-            "version": "5.36.0",
-            "libName": "CTRE_PhoenixSim",
-            "headerClassifier": "headers",
-            "sharedLibrary": true,
-            "skipInvalidPlatforms": true,
-            "binaryPlatforms": [
-                "windowsx86-64",
-                "linuxx86-64",
-                "linuxarm64",
-                "osxuniversal"
-        ],
-            "simMode": "swsim"
-        },
-        {
-            "groupId": "com.ctre.phoenix.sim",
-            "artifactId": "cci-sim",
-            "version": "5.36.0",
-            "libName": "CTRE_PhoenixCCISim",
-            "headerClassifier": "headers",
-            "sharedLibrary": true,
-            "skipInvalidPlatforms": true,
-            "binaryPlatforms": [
-                "windowsx86-64",
-                "linuxx86-64",
-                "linuxarm64",
-                "osxuniversal"
-        ],
-            "simMode": "swsim"
-        }
-]
+import edu.wpi.first.gradlerio.deploy.roborio.RoboRIO
+
+plugins {
+    id "java"
+    id "edu.wpi.first.GradleRIO" version "2026.2.1"
+    id "idea"
+    id 'com.diffplug.spotless' version '6.25.0'
 }
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+def ROBOT_MAIN_CLASS = "frc.robot.Main"
+
+// Define my targets (RoboRIO) and artifacts (deployable files)
+// This is added by GradleRIO's backing project DeployUtils.
+deploy {
+    targets {
+        roborio(getTargetTypeClass('RoboRIO')) {
+            // Team number is loaded either from the .wpilib/wpilib_preferences.json
+            // or from command line. If not found an exception will be thrown.
+            // You can use getTeamOrDefault(team) instead of getTeamNumber if you
+            // want to store a team number in this file.
+            team = project.frc.getTeamNumber()
+            debug = project.frc.getDebugOrDefault(false)
+
+            artifacts {
+                // First part is artifact name, 2nd is artifact type
+                // getTargetTypeClass is a shortcut to get the class type using a string
+
+                frcJava(getArtifactTypeClass('FRCJavaArtifact')) {
+                }
+
+                // Static files artifact
+                frcStaticFileDeploy(getArtifactTypeClass('FileTreeArtifact')) {
+                    files = project.fileTree('src/main/deploy')
+                    directory = '/home/lvuser/deploy'
+                    deleteOldFiles = false // Change to true to delete files on roboRIO that no
+                    // longer exist in deploy directory of this project
+                }
+            }
+        }
+    }
+}
+
+def deployArtifact = deploy.targets.roborio.artifacts.frcJava
+
+// Set to true to use debug for JNI.
+wpi.java.debugJni = false
+
+// Set this to true to enable desktop support.
+def includeDesktopSupport = false
+
+task(replayWatch, type: JavaExec) {
+    mainClass = "org.littletonrobotics.junction.ReplayWatch"
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+
+// Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
+// Also defines JUnit 5.
+dependencies {
+    def akitJson = new groovy.json.JsonSlurper().parseText(new File(projectDir.getAbsolutePath() + "/vendordeps/AdvantageKit.json").text)
+    annotationProcessor "org.littletonrobotics.akit:akit-autolog:$akitJson.version"
+
+    annotationProcessor wpi.java.deps.wpilibAnnotations()
+    implementation wpi.java.deps.wpilib()
+    implementation wpi.java.vendor.java()
+
+    roborioDebug wpi.java.deps.wpilibJniDebug(wpi.platforms.roborio)
+    roborioDebug wpi.java.vendor.jniDebug(wpi.platforms.roborio)
+
+    roborioRelease wpi.java.deps.wpilibJniRelease(wpi.platforms.roborio)
+    roborioRelease wpi.java.vendor.jniRelease(wpi.platforms.roborio)
+
+    nativeDebug wpi.java.deps.wpilibJniDebug(wpi.platforms.desktop)
+    nativeDebug wpi.java.vendor.jniDebug(wpi.platforms.desktop)
+    simulationDebug wpi.sim.enableDebug()
+
+    nativeRelease wpi.java.deps.wpilibJniRelease(wpi.platforms.desktop)
+    nativeRelease wpi.java.vendor.jniRelease(wpi.platforms.desktop)
+    simulationRelease wpi.sim.enableRelease()
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.1'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+    systemProperty 'junit.jupiter.extensions.autodetection.enabled', 'true'
+}
+
+// Simulation configuration (e.g. environment variables).
+wpi.sim.addGui().defaultEnabled = true
+wpi.sim.addDriverstation()
+
+// Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
+// in order to make them all available at runtime. Also adding the manifest so WPILib
+// knows where to look for our Robot Class.
+jar {
+    from {
+        configurations.runtimeClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    from sourceSets.main.allSource
+    manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+// Configure jar and deploy tasks
+deployArtifact.jarTask = jar
+wpi.java.configureExecutableTasks(jar)
+wpi.java.configureTestTasks(test)
+
+// Configure string concat to always inline compile
+tasks.withType(JavaCompile) {
+    options.compilerArgs.add '-XDstringConcat=inline'
+}
+
+idea {
+    project {
+        // The project.sourceCompatibility setting is not always picked up, so we set explicitly
+        languageLevel = JavaVersion.VERSION_17
+    }
+    module {
+        // Improve development & (especially) debugging experience (and IDEA's capabilities) by having libraries' source & javadoc attached
+        downloadJavadoc = true
+        downloadSources = true
+        // Exclude the .vscode directory from indexing and search
+        excludeDirs+=file(".vscode" )
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir "${buildDir.absolutePath}/generated/sources/annotationProcessor/java/main"
+        }
+    }
+}
+
+spotless {
+    java {
+        target fileTree('.') {
+            include '**/*.java'
+            exclude '**/build/**', '**/build-*/**'
+        }
+        toggleOffOn()
+        googleJavaFormat().aosp()
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+    groovyGradle {
+        target fileTree('.') {
+            include '**/*.gradle'
+            exclude '**/build/**', '**/build-*/**'
+        }
+        greclipse()
+        indentWithSpaces(4)
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+    format 'xml', {
+        target fileTree('.') {
+            include '**/*.xml'
+            exclude '**/build/**', '**/build-*/**', '.idea/**', '.vscode/**'
+        }
+        eclipseWtp('xml')
+        trimTrailingWhitespace()
+        indentWithSpaces(2)
+        endWithNewline()
+    }
+    format 'misc', {
+        target fileTree('.') {
+            include '**/*.md', '**/.gitignore'
+            exclude '**/build/**', '**/build-*/**'
+        }
+        trimTrailingWhitespace()
+        indentWithSpaces(2)
+        endWithNewline()
+    }
+}
+
+tasks.build.dependsOn('spotlessApply')
+tasks.deploy.dependsOn('spotlessApply')
