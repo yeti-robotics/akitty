@@ -29,6 +29,10 @@ public class PivotSubsystem extends SubsystemBase {
         io.setPosition(pivotPos.position);
     }
 
+    public void applyPower(double power) {
+        io.applyPower(power);
+    }
+
     private final MotionMagicVoltage m_positionRequest = new MotionMagicVoltage(0);
     private final DutyCycleOut m_dutyCycleRequest = new DutyCycleOut(0);
 

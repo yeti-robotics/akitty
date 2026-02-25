@@ -173,9 +173,11 @@ public class RobotContainer {
                                         drive)
                                 .ignoringDisable(true));
 
-        controller
-                .leftBumper()
-                .onTrue(Commands.run(() -> pivot.setPosition(PivotPos.PivotDown), pivot));
+        controller.leftBumper()
+                .onTrue(pivot.runOnce(() -> pivot.setPosition(PivotPos.PivotDown)));
+
+        controller.rightTrigger()
+                .onTrue(pivot.runOnce(() -> pivot.setPosition(PivotPos.PivotUp)));
 
         /**
          * Use this to pass the autonomous command to the main {@link Robot} class.
