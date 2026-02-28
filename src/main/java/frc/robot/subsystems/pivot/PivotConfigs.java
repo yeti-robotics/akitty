@@ -10,7 +10,7 @@ import frc.robot.Robot;
 public class PivotConfigs {
     public static final int pivotMotorID = 1;
     public static final int pivotCANcoderID = 2;
-    public static final double gearRatio = 0.0;
+    public static final double gearRatio = 75.0;
     public static final double magnetOffset = 0;
     // redid the entire thing, the format was throwing me off so hard
     // proper CANcoder config has been added
