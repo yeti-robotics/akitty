@@ -4,13 +4,12 @@ import com.ctre.phoenix6.configs.*;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.ctre.phoenix6.signals.SensorDirectionValue;
 import frc.robot.Robot;
 
 public class PivotConfigs {
     public static final int pivotMotorID = 1;
     public static final int pivotCANcoderID = 2;
-    public static final double gearRatio = 75.0;
+    public static final double gearRatio = 75.0; // placeholder
     public static final double magnetOffset = 0;
     // redid the entire thing, the format was throwing me off so hard
     // proper CANcoder config has been added
@@ -47,12 +46,5 @@ public class PivotConfigs {
                                     .withSupplyCurrentLimitEnable(true));
 
     public static final CANcoderConfiguration cancoderConfig =
-            new CANcoderConfiguration()
-                    .withMagnetSensor(
-                            new MagnetSensorConfigs()
-                                    .withSensorDirection(
-                                            SensorDirectionValue.CounterClockwise_Positive)
-                                    .withMagnetOffset(magnetOffset)
-                                    .withAbsoluteSensorDiscontinuityPoint(0.5));
-    // 0.5 is usually the default (range -0.5 to 0.5)
+            new CANcoderConfiguration().withMagnetSensor(new MagnetSensorConfigs());
 }
