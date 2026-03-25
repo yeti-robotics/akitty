@@ -11,8 +11,6 @@ public class PivotConfigs {
     public static final int pivotCANcoderID = 2;
     public static final double gearRatio = 75.0; // placeholder
     public static final double magnetOffset = 0;
-    // redid the entire thing, the format was throwing me off so hard
-    // proper CANcoder config has been added
     private static final Slot0Configs SLOT_0_CONFIGS =
             Robot.isReal()
                     ? new Slot0Configs()
@@ -45,6 +43,6 @@ public class PivotConfigs {
                                     .withStatorCurrentLimitEnable(true)
                                     .withSupplyCurrentLimitEnable(true));
 
-    public static final CANcoderConfiguration cancoderConfig =
+    public static final CANcoderConfiguration CANcoderConfigs =
             new CANcoderConfiguration().withMagnetSensor(new MagnetSensorConfigs());
 }
